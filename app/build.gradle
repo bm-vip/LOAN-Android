@@ -6,7 +6,7 @@ android {
         shahaab_release {
             keyAlias 'LOAN'
             keyPassword '123qwe!@#'
-            storeFile file('D:/programing/android/Project/LOAN/app/release/foka.jks')
+            storeFile file('D:/programing/android/Project/LOAN/app/release/loan.jks')
             storePassword '123qwe!@#'
         }
     }
