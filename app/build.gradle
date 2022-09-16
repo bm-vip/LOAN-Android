@@ -1,0 +1,61 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+
+android {
+    signingConfigs {
+        shahaab_release {
+            keyAlias 'LOAN'
+            keyPassword '123qwe!@#'
+            storeFile file('D:/programing/android/Project/LOAN/app/release/foka.jks')
+            storePassword '123qwe!@#'
+        }
+    }
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
+    defaultConfig {
+        applicationId "ir.behrooz.loan"
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 23
+        versionName '1.43'
+        multiDexEnabled true
+    }
+    /*buildTypes {
+        release {
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.shahaab_release
+        }
+    }*/
+    buildTypes {
+        release {
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.shahaab_release
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+        }
+    }
+    productFlavors {
+    }
+}
+
+dependencies {
+    implementation project(':libs:MaterialDatePicker')
+//    implementation 'com.google.android.material:material:1.0.0.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'android.arch.navigation:navigation-fragment:1.0.0'
+    implementation 'android.arch.navigation:navigation-ui:1.0.0'
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:support-compat:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'com.itextpdf:itextg:5.5.10'
+    implementation 'com.github.samanzamani.persiandate:PersianDate:0.8'
+}

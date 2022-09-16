@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/appbar_padding_top">
+    <ir.behrooz.loan.widget.TextViewPlus
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textSize="16dp"
+        app:tvp_fontName="@string/iransansMD"
+        app:tvp_size="18"
+        app:tvp_color="@color/md_black_1000"/>
+    <TextView
+        style="@style/Divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:src="@drawable/logo" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:orientation="vertical">
+
+            <ir.behrooz.loan.widget.TextViewPlus
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/developerName"
+                android:textSize="16dp"
+                app:tvp_color="@color/mdtp_circle_background_dark_theme"
+                app:tvp_fontName="@string/iransansLT"
+                app:tvp_size="14" />
+
+            <ir.behrooz.loan.widget.TextViewPlus
+                android:id="@+id/version"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/version"
+                android:textSize="16dp"
+                app:tvp_color="@color/mdtp_circle_background_dark_theme"
+                app:tvp_fontName="@string/iransansLT"
+                app:tvp_size="14" />
+
+            <ir.behrooz.loan.widget.TextViewPlus
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="behrooz.mohamadi.66@gmail.com"
+                android:textSize="16dp"
+                app:tvp_color="@color/colorPrimary"
+                app:tvp_fontName="@string/iransansLT"
+                app:tvp_size="14" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

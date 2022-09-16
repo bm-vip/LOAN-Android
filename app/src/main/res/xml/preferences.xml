@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:layoutDirection="rtl">
+
+    <ir.behrooz.loan.widget.PreferenceCategoryPlus app:tvp_fontName="@string/iransansMD" android:title="@string/general">
+
+        <ir.behrooz.loan.widget.ListPreferencePlus
+            android:key="CASH_LIST"
+            android:summary="@string/app_name"
+            app:tvp_fontName="@string/iransansLT"
+            android:title="@string/loan_name"
+            />
+    </ir.behrooz.loan.widget.PreferenceCategoryPlus>
+
+    <ir.behrooz.loan.widget.PreferenceCategoryPlus app:tvp_fontName="@string/iransansMD" android:title="@string/backupAndRestore">
+        <ir.behrooz.loan.widget.SwitchPreferencePlus
+            android:defaultValue="true"
+            android:key="EXIT_AND_BACKUP"
+            app:tvp_fontName="@string/iransansLT"
+            android:title="@string/exitAndBackup" />
+        <ir.behrooz.loan.widget.PreferencePlus
+            android:key="BACKUP"
+            app:tvp_fontName="@string/iransansLT"
+            android:title="@string/backup" />
+        <ir.behrooz.loan.widget.PreferencePlus
+            android:key="BACKUP_PATH"
+            android:defaultValue="/"
+            android:title="@string/dbPath"
+            app:tvp_fontName="@string/iransansLT"
+            android:summary="حافظه داخلی" />
+        <ir.behrooz.loan.widget.PreferencePlus
+            android:key="SHARE"
+            app:tvp_fontName="@string/iransansLT"
+            android:title="@string/share" />
+        <ir.behrooz.loan.widget.PreferencePlus
+            android:key="RESTORE"
+            app:tvp_fontName="@string/iransansLT"
+            android:title="@string/restore"
+            />
+    </ir.behrooz.loan.widget.PreferenceCategoryPlus>
+</PreferenceScreen>

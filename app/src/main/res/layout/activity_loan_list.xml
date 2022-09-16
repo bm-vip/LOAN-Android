@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:background="@color/md_blue_grey_50"
+    android:layoutDirection="rtl"
+    tools:context="ir.behrooz.loan.LoanListActivity">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/loan_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:scrollbars="vertical" />
+
+        <android.support.design.widget.FloatingActionButton
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/loanActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:onClick="loanActivity"
+            app:backgroundTint="@color/md_indigo_800"
+            android:tint="@color/md_white_1000"
+            android:layout_margin="10dp"
+            android:src="@android:drawable/ic_input_add" />
+        <ProgressBar
+            android:id="@+id/loan_progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="8dp"
+            android:indeterminateTint="@color/md_indigo_800"
+            android:visibility="gone" />
+
+</RelativeLayout>

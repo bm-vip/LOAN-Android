@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ir.behrooz.loan"
+    android:versionCode="23"
+    android:versionName="1.43">
+
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="28" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application
+        android:allowBackup="true"
+        android:hardwareAccelerated="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:theme="@style/AppBaseTheme">
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <receiver android:name="ir.behrooz.loan.common.AlarmReceiver" />
+        <receiver android:name="ir.behrooz.loan.common.AutoStart">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".PersonListActivity"
+            android:label="@string/title_activity_person_list"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ir.behrooz.loan.MainActivity" />
+        </activity>
+        <activity
+            android:name=".LoanListActivity"
+            android:label="@string/title_activity_loan_list"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ir.behrooz.loan.MainActivity" />
+        </activity>
+        <activity
+            android:name=".PersonActivity"
+            android:label="@string/title_activity_person"
+            android:parentActivityName=".PersonListActivity"></activity>
+        <activity
+            android:name=".DebitCreditActivity"
+            android:label="@string/title_activity_debitCredit"
+            android:parentActivityName=".DebitCreditListActivity"></activity>
+        <activity
+            android:name=".LoanActivity"
+            android:label="@string/title_activity_loan"
+            android:parentActivityName=".LoanListActivity" />
+        <activity
+            android:name=".DebitCreditListActivity"
+            android:label="@string/title_activity_debitCredit_list"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ir.behrooz.loan.MainActivity" />
+        </activity>
+        <activity
+            android:name=".WalletActivity"
+            android:label="@string/wallets"
+            android:parentActivityName=".WalletListActivity" />
+        <activity
+            android:name=".WalletListActivity"
+            android:label="@string/title_activity_wallet_list"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ir.behrooz.loan.MainActivity" />
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppBaseTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".PersonHelpActivity"
+            android:label="@string/title_activity_person_list_help"
+            android:theme="@style/AppBaseTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ir.behrooz.loan.PersonListActivity" />
+        </activity>
+
+        <activity
+            android:name=".WalletHelpActivity"
+            android:label="@string/title_activity_wallet_list_help"
+            android:theme="@style/AppBaseTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ir.behrooz.loan.WalletListActivity" />
+        </activity>
+
+        <activity
+            android:name=".LoanHelpActivity"
+            android:label="@string/title_activity_loan_list_help"
+            android:theme="@style/AppBaseTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ir.behrooz.loan.LoanListActivity" />
+        </activity>
+
+        <activity
+            android:name=".DebitCreditHelpActivity"
+            android:label="@string/title_activity_debit_credit_list_help"
+            android:theme="@style/AppBaseTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ir.behrooz.loan.DebitCreditListActivity" />
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/setting">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ir.behrooz.loan.MainActivity" />
+        </activity>
+        <activity
+            android:name=".CashListActivity"
+            android:label="@string/title_activity_cash_list">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ir.behrooz.loan.MainActivity" />
+        </activity>
+        <activity
+            android:name=".CashActivity"
+            android:label="@string/title_activity_cash"
+            android:parentActivityName=".WalletListActivity" />
+    </application>
+
+</manifest>

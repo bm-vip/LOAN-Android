@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ir.behrooz.loan.PersonHelpActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppBaseTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/personHelpToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppBaseTheme.PopupOverlay">
+
+            <ir.behrooz.loan.widget.TextViewPlus
+                android:id="@+id/title_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="right"
+                android:text="@string/title_activity_person_list_help"
+                android:textStyle="bold"
+                app:tvp_color="@color/md_white_1000"
+                app:tvp_size="14" />
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/appbar_padding_top60"
+        android:paddingLeft="@dimen/appbar_padding_top"
+        android:paddingRight="@dimen/appbar_padding_top"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ir.behrooz.loan.widget.TextViewPlus
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="@string/itemsAction"
+                android:textSize="16dp"
+                app:tvp_fontName="@string/iransansMD"
+                app:tvp_size="16"
+                app:tvp_color="@color/md_black_1000"/>
+
+            <ir.behrooz.loan.widget.TextViewPlus
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:text="@string/personItemsAction"
+                android:textSize="14dp"
+                app:tvp_fontName="@string/iransansLT"
+                app:tvp_size="14" />
+
+            <TextView
+                style="@style/Divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                />
+
+            <ir.behrooz.loan.widget.TextViewPlus
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="@string/search"
+                android:textSize="16dp"
+                app:tvp_fontName="@string/iransansMD"
+                app:tvp_size="16"
+                app:tvp_color="@color/md_black_1000"/>
+
+            <ir.behrooz.loan.widget.TextViewPlus
+                android:id="@+id/searchAction"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:text="@string/searchAction1"
+                android:textSize="14dp"
+                app:tvp_fontName="@string/iransansLT"
+                app:tvp_size="14" />
+
+            <TextView
+                style="@style/Divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                />
+
+            <ir.behrooz.loan.widget.TextViewPlus
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:text="@string/sort"
+                android:textSize="16dp"
+                app:tvp_fontName="@string/iransansMD"
+                app:tvp_color="@color/md_black_1000"
+                app:tvp_size="16" />
+
+            <ir.behrooz.loan.widget.TextViewPlus
+                android:id="@+id/sortAction"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:text="@string/sortAction1"
+                android:textSize="14dp"
+                app:tvp_fontName="@string/iransansLT"
+                app:tvp_size="14" />
+
+            <TextView
+                style="@style/Divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                />
+
+            <ir.behrooz.loan.widget.TextViewPlus
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:text="@string/print"
+                android:textSize="16dp"
+                app:tvp_fontName="@string/iransansMD"
+                app:tvp_color="@color/md_black_1000"
+                app:tvp_size="16" />
+
+            <ir.behrooz.loan.widget.TextViewPlus
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:text="@string/printAction"
+                android:textSize="14dp"
+                app:tvp_fontName="@string/iransansLT"
+                app:tvp_size="14" />
+
+            <TextView
+                style="@style/Divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                />
+
+            <ir.behrooz.loan.widget.TextViewPlus
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:text="@string/delayed"
+                android:textSize="16dp"
+                app:tvp_fontName="@string/iransansMD"
+                app:tvp_size="16"
+                app:tvp_color="@color/md_black_1000"/>
+
+            <ir.behrooz.loan.widget.TextViewPlus
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:text="@string/personDelayedColumn"
+                android:textSize="14dp"
+                app:tvp_fontName="@string/iransansLT"
+                app:tvp_size="14" />
+        </LinearLayout>
+    </ScrollView>
+</android.support.design.widget.CoordinatorLayout>

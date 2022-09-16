@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TextViewPlus">
+        <attr name="tvp_fontName" format="string" />
+        <attr name="tvp_text" format="string" />
+        <attr name="tvp_size" format="integer" />
+        <attr name="tvp_color" format="color" />
+    </declare-styleable>
+</resources>

@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:layoutDirection="rtl">
+
+<!--    <include-->
+<!--        layout="@layout/app_bar_loan"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/appbar_padding_top"
+        android:paddingTop="0dp"
+        android:paddingRight="@dimen/appbar_padding_top"
+        android:paddingBottom="@dimen/appbar_padding_top"
+        tools:context="ir.behrooz.loan.LoanActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:labelFor="@+id/fullNameValue"
+                    android:text="@string/borrower"
+                    android:textColor="@color/md_indigo_800"
+                    android:textSize="12dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/fullNameValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:enabled="false"
+                        android:hint="@string/borrower"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:nextFocusDown="@id/loanName"
+                        android:textColor="@color/mdtp_dark_gray"
+                        android:textSize="14dp" />
+
+                    <ImageButton
+                        android:id="@+id/fullNameBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="5dp"
+                        android:background="?android:selectableItemBackground"
+                        android:onClick="addPerson"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_person_add_gray_24dp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:labelFor="@+id/loanName"
+                        android:text="@string/loanTitle"
+                        android:textColor="@color/md_indigo_800"
+                        android:textSize="12dp" />
+
+                    <EditText
+                        android:id="@+id/loanName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/loanTitle"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName"
+                        android:nextFocusLeft="@+id/dayOfMonth"
+                        android:textSize="14dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:labelFor="@+id/dayOfMonth"
+                        android:text="@string/dayOfMonth"
+                        android:textColor="@color/md_indigo_800"
+                        android:textSize="12dp" />
+
+                    <EditText
+                        android:id="@+id/dayOfMonth"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/dayOfMonth"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:nextFocusDown="@+id/value"
+                        android:textSize="14dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:labelFor="@+id/value"
+                        android:text="@string/loanAmount"
+                        android:textColor="@color/md_indigo_800"
+                        android:textSize="12dp" />
+
+                    <EditText
+                        android:id="@+id/value"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/loanAmount"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:nextFocusLeft="@+id/installment"
+                        android:textSize="14dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:labelFor="@+id/installment"
+                        android:text="@string/installment"
+                        android:textColor="@color/md_indigo_800"
+                        android:textSize="12dp" />
+
+                    <EditText
+                        android:id="@+id/installment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/installment"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:nextFocusDown="@+id/firstInstallmentAmount"
+                        android:textSize="14dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:labelFor="@+id/firstInstallmentAmount"
+                        android:text="@string/firstInstallmentAmount"
+                        android:textColor="@color/md_indigo_800"
+                        android:textSize="12dp" />
+
+                    <EditText
+                        android:id="@+id/firstInstallmentAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/firstInstallmentAmount"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:nextFocusLeft="@+id/otherInstallmentAmount"
+                        android:textSize="14dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:labelFor="@+id/otherInstallmentAmount"
+                        android:text="@string/otherInstallmentAmount"
+                        android:textColor="@color/md_indigo_800"
+                        android:textSize="12dp" />
+
+                    <EditText
+                        android:id="@+id/otherInstallmentAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/otherInstallmentAmount"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:nextFocusDown="@+id/date"
+                        android:textSize="14dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/lbl_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:labelFor="@+id/date"
+                        android:text="@string/receiveDate"
+                        android:textColor="@color/md_indigo_800"
+                        android:textSize="12dp" />
+
+                    <EditText
+                        android:id="@+id/date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/receiveDate"
+                        android:imeOptions="actionNext"
+                        android:nextFocusLeft="@id/winDate"
+                        android:inputType="number"
+                        android:textSize="14dp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/layout_winDate"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/lbl_winDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:labelFor="@+id/winDate"
+                        android:text="@string/winDate"
+                        android:textColor="@color/md_indigo_800"
+                        android:textSize="12dp" />
+
+                    <EditText
+                        android:id="@+id/winDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/winDate"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:textSize="14dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/saveLoan"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/md_indigo_800"
+                android:onClick="saveLoan"
+                android:padding="14dp"
+                android:text="@string/submit"
+                android:textColor="@color/md_white_1000"
+                android:textSize="12dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/loan_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+</RelativeLayout>

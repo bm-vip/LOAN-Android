@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/md_blue_grey_50"
+    android:layoutDirection="rtl"
+    tools:context="ir.behrooz.loan.WalletListActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/wallet_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:scrollbars="vertical" />
+
+    <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/walletActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:onClick="walletActivity"
+        android:src="@android:drawable/ic_input_add"
+        android:tint="@color/md_white_1000"
+        app:backgroundTint="@color/md_green_300" />
+
+    <ProgressBar
+        android:id="@+id/wallet_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="8dp"
+        android:indeterminateTint="@color/md_green_300"
+        android:visibility="gone" />
+</RelativeLayout>

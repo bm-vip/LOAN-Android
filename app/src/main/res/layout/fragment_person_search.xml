@@ -1,0 +1,60 @@
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/appbar_padding_top"
+        android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/personSearch"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="16dp"
+        android:hint="@string/search"
+        />
+
+    <ListView
+        android:id="@+id/personList"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:layout_below="@id/personSearch"
+        android:divider="@color/mdtp_done_text_color_dark_disabled"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:dividerHeight="1px"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/personList"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/submitSearch"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:layout_below="@id/personList"
+            android:background="@color/mdtp_white"
+            android:padding="12dp"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/select"
+            android:textSize="12dp"
+            android:layout_marginRight="10dp"
+            />
+
+        <Button
+            android:id="@+id/cancelSearch"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:background="@color/mdtp_white"
+            android:padding="12dp"
+            android:textColor="@color/mdtp_light_gray"
+            android:text="@string/cancel"
+            android:textSize="12dp"
+            android:layout_marginLeft="10dp"
+            />
+    </LinearLayout>
+</LinearLayout>

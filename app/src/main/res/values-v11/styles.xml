@@ -1,0 +1,29 @@
+<resources>
+
+    <!--
+        Base application theme for API 11+. This theme completely replaces
+        AppBaseTheme from res/values/styles.xml on API 11+ devices.
+    -->
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/md_blue_200</item>
+    </style>
+
+    <style name="NavigationDrawerStyle">
+
+        <item name="android:textSize">14dp</item><!-- text size in menu-->
+        <!-- item size in menu-->
+        <item name="android:listPreferredItemHeightSmall">40dp</item>
+        <item name="listPreferredItemHeightSmall">40dp</item>
+
+        <!-- item padding left in menu-->
+        <item name="android:listPreferredItemPaddingLeft">1dp</item>
+        <item name="listPreferredItemPaddingLeft">1dp</item>
+
+        <!-- item padding right in menu-->
+        <item name="android:listPreferredItemPaddingRight">1dp</item>
+        <item name="listPreferredItemPaddingRight">1dp</item>
+    </style>
+</resources>
