@@ -80,6 +80,6 @@ public class AlarmReceiver extends BroadcastReceiver {
     public boolean isAlarmRunning(Context context) {
         Intent intent = new Intent(context, AlarmReceiver.class);//the same as up
         intent.setAction(ACTION_ALARM_RECEIVER);//the same as up
-        return  (PendingIntent.getBroadcast(context, REQUEST_CODE, intent, PendingIntent.FLAG_NO_CREATE) != null);//just changed the flag
+        return  (PendingIntent.getBroadcast(context, REQUEST_CODE, intent, PendingIntent.FLAG_IMMUTABLE ) != null);//just changed the flag
     }
 }

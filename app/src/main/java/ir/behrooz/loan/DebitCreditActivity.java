@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -18,12 +17,10 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.mojtaba.materialdatetimepicker.date.DatePickerDialog;
-import com.mojtaba.materialdatetimepicker.utils.LanguageUtils;
-import com.mojtaba.materialdatetimepicker.utils.PersianCalendar;
-
 import ir.behrooz.loan.common.BaseActivity;
 import ir.behrooz.loan.common.DateUtil;
+import ir.behrooz.loan.common.LanguageUtils;
+import ir.behrooz.loan.common.calendar.PersianCalendar;
 import ir.behrooz.loan.common.sql.DBUtil;
 import ir.behrooz.loan.entity.CashtEntity;
 import ir.behrooz.loan.entity.DebitCreditEntity;
@@ -43,6 +40,8 @@ import static ir.behrooz.loan.common.StringUtil.removeSeparator;
 import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.Date;
 import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.LoanId;
 import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.PayStatus;
+
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 public class DebitCreditActivity extends BaseActivity {
 
@@ -150,7 +149,7 @@ public class DebitCreditActivity extends BaseActivity {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (b && dpd != null) {
-                    dpd.show(getFragmentManager(), "dateDialog");
+                    dpd.show(getSupportFragmentManager(), "dateDialog");
                     description.requestFocus();
                 }
             }
@@ -191,7 +190,7 @@ public class DebitCreditActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        DatePickerDialog dpd = (DatePickerDialog) getFragmentManager().findFragmentByTag("dateDialog");
+        DatePickerDialog dpd = (DatePickerDialog) getSupportFragmentManager().findFragmentByTag("dateDialog");
         if (dpd != null) dpd.setOnDateSetListener(dateListener);
 
         if (getIntent().hasExtra("notification_debitCreditId")) {

@@ -11,11 +11,6 @@ import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintJob;
 import android.print.PrintManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,6 +40,12 @@ import ir.behrooz.loan.model.SortModel;
 import ir.behrooz.loan.report.LoanListPDF;
 
 import static ir.behrooz.loan.common.sql.DBUtil.orderBy;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class LoanListActivity extends BaseActivity {
     public RecyclerView recyclerView;
@@ -121,65 +122,64 @@ public class LoanListActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         FragmentManager fm = getSupportFragmentManager();
-        switch (item.getItemId()) {
-            case R.id.appSortBar:
-                LoanSortFragment loanSortFragment = LoanSortFragment.newInstance("Some Title");
-                loanSortFragment.setCompleteListener(new CompleteListener() {
-                    @Override
-                    public void onComplete(Object obj) {
-                        sortModels = (List<SortModel>) obj;
-                        adapter = new LoanListAdapter(context, search(10, 0));
-                        recyclerView.setAdapter(adapter);
-                        adapter.setOnItemClickListner(new LoanListAdapter.OnItemClickListner() {
-                            @Override
-                            public void onClick(Long... ids) {
-                                FragmentManager fm = getSupportFragmentManager();
-                                LoanMenuFragment loanMenuFragment = LoanMenuFragment.newInstance(ids);
-                                loanMenuFragment.show(fm, "fragment_menu");
-                            }
-                        });
-                    }
-                });
-                loanSortFragment.show(fm, "fragment_sort");
-                return true;
-
-            case R.id.appSearchBar:
-                LoanSearchFragment loanSearchFragment = LoanSearchFragment.newInstance(cashtEntity.getId());
-                loanSearchFragment.setCompleteListener(new CompleteListener() {
-                    @Override
-                    public void onComplete(Object obj) {
-                        search = (String) obj;
-                        adapter = new LoanListAdapter(context, search(10, 0));
-                        recyclerView.setAdapter(adapter);
-                        adapter.setOnItemClickListner(new LoanListAdapter.OnItemClickListner() {
-                            @Override
-                            public void onClick(Long... ids) {
-                                FragmentManager fm = getSupportFragmentManager();
-                                LoanMenuFragment loanMenuFragment = LoanMenuFragment.newInstance(ids);
-                                loanMenuFragment.show(fm, "fragment_menu");
-                            }
-                        });
-                    }
-                });
-                loanSearchFragment.show(fm, "fragment_sort");
-                return true;
-            case R.id.appPrintBar:
-                String fileName = "LoanList_".concat(DateUtil.toPersianWithTimeString(new Date())).concat(".pdf");
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    print(fileName,
-                            new PdfDocumentAdapter(context, fileName),
-                            new PrintAttributes.Builder().build());
+        if (item.getItemId() == R.id.appSortBar) {
+            LoanSortFragment loanSortFragment = LoanSortFragment.newInstance("Some Title");
+            loanSortFragment.setCompleteListener(new CompleteListener() {
+                @Override
+                public void onComplete(Object obj) {
+                    sortModels = (List<SortModel>) obj;
+                    adapter = new LoanListAdapter(context, search(10, 0));
+                    recyclerView.setAdapter(adapter);
+                    adapter.setOnItemClickListner(new LoanListAdapter.OnItemClickListner() {
+                        @Override
+                        public void onClick(Long... ids) {
+                            FragmentManager fm = getSupportFragmentManager();
+                            LoanMenuFragment loanMenuFragment = LoanMenuFragment.newInstance(ids);
+                            loanMenuFragment.show(fm, "fragment_menu");
+                        }
+                    });
                 }
-                return true;
-            case R.id.appHelpBar:
-                startActivity(new Intent(this, LoanHelpActivity.class));
-                return true;
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
+            });
+            loanSortFragment.show(fm, "fragment_sort");
+            return true;
+        } else if (item.getItemId() == R.id.appSearchBar) {
 
+            LoanSearchFragment loanSearchFragment = LoanSearchFragment.newInstance(cashtEntity.getId());
+            loanSearchFragment.setCompleteListener(new CompleteListener() {
+                @Override
+                public void onComplete(Object obj) {
+                    search = (String) obj;
+                    adapter = new LoanListAdapter(context, search(10, 0));
+                    recyclerView.setAdapter(adapter);
+                    adapter.setOnItemClickListner(new LoanListAdapter.OnItemClickListner() {
+                        @Override
+                        public void onClick(Long... ids) {
+                            FragmentManager fm = getSupportFragmentManager();
+                            LoanMenuFragment loanMenuFragment = LoanMenuFragment.newInstance(ids);
+                            loanMenuFragment.show(fm, "fragment_menu");
+                        }
+                    });
+                }
+            });
+            loanSearchFragment.show(fm, "fragment_sort");
+            return true;
+        } else if (item.getItemId() == R.id.appPrintBar) {
+
+            String fileName = "LoanList_".concat(DateUtil.toPersianWithTimeString(new Date())).concat(".pdf");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                print(fileName,
+                        new PdfDocumentAdapter(context, fileName),
+                        new PrintAttributes.Builder().build());
+            }
+            return true;
+        } else if (item.getItemId() == R.id.appHelpBar) {
+
+            startActivity(new Intent(this, LoanHelpActivity.class));
+            return true;
         }
+        // If we got here, the user's action was not recognized.
+        // Invoke the superclass to handle it.
+        return super.onOptionsItemSelected(item);
     }
 
     private PrintJob print(String name, PrintDocumentAdapter adapter,

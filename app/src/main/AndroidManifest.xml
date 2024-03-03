@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ir.behrooz.loan"
-    android:versionCode="23"
-    android:versionName="1.43">
+    android:versionCode="24"
+    android:versionName="2.44">
 
     <uses-sdk
         android:minSdkVersion="21"
-        android:targetSdkVersion="28" />
+        android:targetSdkVersion="34" />
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -24,17 +24,18 @@
         android:theme="@style/AppBaseTheme">
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:name="androidx.core.content.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
 
         <receiver android:name="ir.behrooz.loan.common.AlarmReceiver" />
-        <receiver android:name="ir.behrooz.loan.common.AutoStart">
+        <receiver android:name="ir.behrooz.loan.common.AutoStart"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
@@ -45,7 +46,7 @@
             android:label="@string/title_activity_person_list"
             android:parentActivityName=".MainActivity">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
+                android:name=".MainActivity"
                 android:value="ir.behrooz.loan.MainActivity" />
         </activity>
         <activity
@@ -53,7 +54,7 @@
             android:label="@string/title_activity_loan_list"
             android:parentActivityName=".MainActivity">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
+                android:name=".MainActivity"
                 android:value="ir.behrooz.loan.MainActivity" />
         </activity>
         <activity
@@ -73,7 +74,7 @@
             android:label="@string/title_activity_debitCredit_list"
             android:parentActivityName=".MainActivity">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
+                android:name=".MainActivity"
                 android:value="ir.behrooz.loan.MainActivity" />
         </activity>
         <activity
@@ -85,16 +86,16 @@
             android:label="@string/title_activity_wallet_list"
             android:parentActivityName=".MainActivity">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
+                android:name=".MainActivity"
                 android:value="ir.behrooz.loan.MainActivity" />
         </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppBaseTheme.NoActionBar">
+            android:theme="@style/AppBaseTheme.NoActionBar"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -104,7 +105,7 @@
             android:label="@string/title_activity_person_list_help"
             android:theme="@style/AppBaseTheme.NoActionBar">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
+                android:name=".PersonListActivity"
                 android:value="ir.behrooz.loan.PersonListActivity" />
         </activity>
 
@@ -113,7 +114,7 @@
             android:label="@string/title_activity_wallet_list_help"
             android:theme="@style/AppBaseTheme.NoActionBar">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
+                android:name=".WalletListActivity"
                 android:value="ir.behrooz.loan.WalletListActivity" />
         </activity>
 
@@ -122,7 +123,7 @@
             android:label="@string/title_activity_loan_list_help"
             android:theme="@style/AppBaseTheme.NoActionBar">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
+                android:name=".LoanListActivity"
                 android:value="ir.behrooz.loan.LoanListActivity" />
         </activity>
 
@@ -131,21 +132,21 @@
             android:label="@string/title_activity_debit_credit_list_help"
             android:theme="@style/AppBaseTheme.NoActionBar">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
+                android:name=".DebitCreditListActivity"
                 android:value="ir.behrooz.loan.DebitCreditListActivity" />
         </activity>
         <activity
             android:name=".SettingsActivity"
             android:label="@string/setting">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
+                android:name=".MainActivity"
                 android:value="ir.behrooz.loan.MainActivity" />
         </activity>
         <activity
             android:name=".CashListActivity"
             android:label="@string/title_activity_cash_list">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
+                android:name=".MainActivity"
                 android:value="ir.behrooz.loan.MainActivity" />
         </activity>
         <activity

@@ -1,5 +1,6 @@
 package ir.behrooz.loan;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,8 +11,6 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.FileProvider;
 import android.view.MenuItem;
 
 import java.io.File;
@@ -27,6 +26,10 @@ import ir.behrooz.loan.entity.CashtEntity;
 import static ir.behrooz.loan.common.ReflectionUtils.convert;
 import static ir.behrooz.loan.common.ReflectionUtils.select;
 
+import androidx.core.content.FileProvider;
+
+import com.google.android.material.snackbar.Snackbar;
+
 public class SettingsActivity extends PreferenceActivity {
     public static final int RESTORE_CODE = 1;
 
@@ -38,7 +41,7 @@ public class SettingsActivity extends PreferenceActivity {
 
     public static class MainPreferenceFragment extends PreferenceFragment {
         AlarmReceiver alarmReceiver = new AlarmReceiver();
-
+        private String applicationId;
         @Override
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
@@ -54,6 +57,7 @@ public class SettingsActivity extends PreferenceActivity {
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
+            applicationId = getActivity().getPackageName();
 
             ListPreference cashList = (ListPreference) findPreference("CASH_LIST");
             final Preference backupPath = findPreference("BACKUP_PATH");
@@ -90,7 +94,7 @@ public class SettingsActivity extends PreferenceActivity {
                 public boolean onPreferenceClick(Preference preference) {
                     File outputFile = new File(backupPath.getSummary().toString(), Constants.DB_NAME);
                     if (outputFile.exists() && outputFile.isFile()) {
-                        Uri uri = FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID + ".provider", outputFile);
+                        Uri uri = FileProvider.getUriForFile(getActivity(), applicationId + ".provider", outputFile);
 
                         Intent i = new Intent(Intent.ACTION_SEND);
                         i.putExtra(Intent.EXTRA_TEXT, Constants.DB_NAME);

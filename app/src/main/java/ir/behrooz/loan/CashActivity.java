@@ -6,8 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +27,8 @@ import ir.behrooz.loan.entity.PersonEntityDao;
 import ir.behrooz.loan.entity.WalletEntityDao;
 
 import static ir.behrooz.loan.common.Constants.IRANSANS_LT;
+
+import com.google.android.material.snackbar.Snackbar;
 
 public class CashActivity extends BaseActivity {
 
@@ -153,39 +153,36 @@ public class CashActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.appDeleteBar:
-                if (cashId != null) {
-                    if (cashtEntityDao.count() == 1L) {
-                        Snackbar.make(findViewById(android.R.id.content), getString(R.string.cannotDeleteThisItem), Snackbar.LENGTH_LONG).show();
-                        return true;
-                    }
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle(getString(R.string.areYouSure));
-                    builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            deleteCash(cashId);
-                            dialog.dismiss();
-                            finish();
-                        }
-                    });
-                    builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                    ViewGroup viewGroup = (ViewGroup) dialog.findViewById(android.R.id.content);
-                    new FontChangeCrawler(context.getAssets(), IRANSANS_LT).replaceFonts(viewGroup);
+        if (item.getItemId() == R.id.appDeleteBar) {
+            if (cashId != null) {
+                if (cashtEntityDao.count() == 1L) {
+                    Snackbar.make(findViewById(android.R.id.content), getString(R.string.cannotDeleteThisItem), Snackbar.LENGTH_LONG).show();
+                    return true;
                 }
-                return true;
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(getString(R.string.areYouSure));
+                builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        deleteCash(cashId);
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
+                builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                ViewGroup viewGroup = (ViewGroup) dialog.findViewById(android.R.id.content);
+                new FontChangeCrawler(context.getAssets(), IRANSANS_LT).replaceFonts(viewGroup);
+            }
+            return true;
         }
+        // If we got here, the user's action was not recognized.
+        // Invoke the superclass to handle it.
+        return super.onOptionsItemSelected(item);
     }
     private void deleteCash(long cashId) {
         personEntityDao.queryBuilder().where(PersonEntityDao.Properties.CashId.eq(cashId)).buildDelete().executeDeleteWithoutDetachingEntities();

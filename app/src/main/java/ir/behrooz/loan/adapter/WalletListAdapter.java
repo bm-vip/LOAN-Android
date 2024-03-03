@@ -3,7 +3,6 @@ package ir.behrooz.loan.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,8 @@ import ir.behrooz.loan.entity.WalletEntityDao;
 
 import static ir.behrooz.loan.common.DateUtil.toPersianString;
 import static ir.behrooz.loan.common.StringUtil.moneySeparator;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by Behrooz Mohamadi on 7/5/2018.

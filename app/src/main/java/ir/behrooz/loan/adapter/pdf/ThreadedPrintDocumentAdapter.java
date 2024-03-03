@@ -8,7 +8,8 @@ import android.os.ParcelFileDescriptor;
 import android.print.PageRange;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
-import android.support.annotation.RequiresApi;
+
+import androidx.annotation.RequiresApi;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

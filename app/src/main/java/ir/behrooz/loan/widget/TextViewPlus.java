@@ -5,14 +5,15 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.widget.TextView;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 import ir.behrooz.loan.R;
 import ir.behrooz.loan.common.Constants;
 
 import static ir.behrooz.loan.common.StringUtil.isNullOrEmpty;
 
-public class TextViewPlus extends TextView {
+public class TextViewPlus extends AppCompatTextView {
     private final static String PATH_TO_FONT = Constants.IRANSANS_LT;
     private final static int DEFAULT_ICON_SIZE = 19;
     private final static int DEFAULT_ICON_COLOR = Color.GRAY;

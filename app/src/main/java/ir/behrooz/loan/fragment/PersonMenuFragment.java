@@ -3,8 +3,6 @@ package ir.behrooz.loan.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +43,9 @@ import static ir.behrooz.loan.common.StringUtil.moneySeparator;
 import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.PayStatus;
 import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.PersonId;
 import static ir.behrooz.loan.entity.WalletEntityDao.Properties.Value;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 /**
  * Created by Behrooz Mohamadi on 16/10/28.

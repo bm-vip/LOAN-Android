@@ -8,7 +8,8 @@ import android.os.SystemClock;
 import android.print.PrintJob;
 import android.print.PrintJobInfo;
 import android.print.PrintManager;
-import android.support.annotation.RequiresApi;
+
+import androidx.annotation.RequiresApi;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

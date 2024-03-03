@@ -2,9 +2,6 @@ package ir.behrooz.loan.fragment;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -15,10 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import com.mojtaba.materialdatetimepicker.date.DatePickerDialog;
-import com.mojtaba.materialdatetimepicker.utils.LanguageUtils;
-import com.mojtaba.materialdatetimepicker.utils.PersianCalendar;
-
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +20,8 @@ import ir.behrooz.loan.common.CompleteListener;
 import ir.behrooz.loan.common.Constants;
 import ir.behrooz.loan.common.DateUtil;
 import ir.behrooz.loan.common.FontChangeCrawler;
+import ir.behrooz.loan.common.LanguageUtils;
+import ir.behrooz.loan.common.calendar.PersianCalendar;
 import ir.behrooz.loan.entity.DebitCreditEntityDao;
 import ir.behrooz.loan.model.PersonModel;
 
@@ -34,6 +29,12 @@ import static ir.behrooz.loan.common.DateUtil.addZero;
 import static ir.behrooz.loan.common.StringUtil.fixWeakCharacters;
 import static ir.behrooz.loan.common.StringUtil.onChangedEditText;
 import static ir.behrooz.loan.common.StringUtil.removeSeparator;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 /**
  * Created by Behrooz Mohamadi on 16/10/28.
@@ -71,7 +72,7 @@ public class LoanSearchFragment extends DialogFragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fullNameBtn = view.findViewById(R.id.fullNameBtn);
         fullName = view.findViewById(R.id.fullNameValue);
@@ -138,7 +139,7 @@ public class LoanSearchFragment extends DialogFragment {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (b && dpd1 != null) {
-                    dpd1.show(getActivity().getFragmentManager(), "dateDialog1");
+                    dpd1.show(getFragmentManager(), "dateDialog1");
                 }
             }
         });
@@ -146,7 +147,7 @@ public class LoanSearchFragment extends DialogFragment {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (b && dpd2 != null) {
-                    dpd2.show(getActivity().getFragmentManager(), "dateDialog2");
+                    dpd2.show(getFragmentManager(), "dateDialog2");
                 }
             }
         });

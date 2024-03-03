@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,13 +9,13 @@
     tools:openDrawer="start"
     tools:context="ir.behrooz.loan.DebitCreditHelpActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_debit_credit_help"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppBaseTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/debitCreditHelpToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -33,8 +33,8 @@
                 android:textStyle="bold"
                 app:tvp_color="@color/md_white_1000"
                 app:tvp_size="14" />
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -176,4 +176,4 @@
                 app:tvp_size="14" />
         </LinearLayout>
     </ScrollView>
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -6,14 +6,15 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ import ir.behrooz.loan.common.Constants;
 import ir.behrooz.loan.common.sql.DBUtil;
 import ir.behrooz.loan.entity.CashtEntity;
 import ir.behrooz.loan.entity.CashtEntityDao;
+import ir.behrooz.loan.R;
 
 public class CashListActivity extends BaseActivity {
     private RecyclerView recyclerView;
@@ -75,8 +77,8 @@ public class CashListActivity extends BaseActivity {
         MenuItem mSearch = menu.findItem(R.id.appSearchBar);
 
         SearchView mSearchView = (SearchView) mSearch.getActionView();
-        TextView searchText = (TextView) mSearchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        searchText.setTypeface(Typeface.createFromAsset(getAssets(), Constants.IRANSANS_LT));
+//        TextView searchText = (TextView) mSearchView.findViewById(R.id.search_src_text);
+//        searchText.setTypeface(Typeface.createFromAsset(getAssets(), Constants.IRANSANS_LT));
         mSearchView.setQueryHint(getString(R.string.search));
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

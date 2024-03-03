@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -21,11 +20,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
-
-import com.mojtaba.materialdatetimepicker.date.DatePickerDialog;
-import com.mojtaba.materialdatetimepicker.utils.LanguageUtils;
-import com.mojtaba.materialdatetimepicker.utils.PersianCalendar;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +27,8 @@ import ir.behrooz.loan.common.BaseActivity;
 import ir.behrooz.loan.common.CompleteListener;
 import ir.behrooz.loan.common.DateUtil;
 import ir.behrooz.loan.common.FontChangeCrawler;
+import ir.behrooz.loan.common.LanguageUtils;
+import ir.behrooz.loan.common.calendar.PersianCalendar;
 import ir.behrooz.loan.common.sql.DBUtil;
 import ir.behrooz.loan.entity.CashtEntity;
 import ir.behrooz.loan.entity.PersonEntity;
@@ -49,6 +45,10 @@ import static ir.behrooz.loan.common.StringUtil.fixWeakCharacters;
 import static ir.behrooz.loan.common.StringUtil.moneySeparator;
 import static ir.behrooz.loan.common.StringUtil.onChangedEditText;
 import static ir.behrooz.loan.common.StringUtil.removeSeparator;
+
+import androidx.fragment.app.FragmentManager;
+
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 public class WalletActivity extends BaseActivity {
 
@@ -129,7 +129,7 @@ public class WalletActivity extends BaseActivity {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (b && dpd != null) {
-                    dpd.show(getFragmentManager(), "dateDialog");
+                    dpd.show(getSupportFragmentManager(), "dateDialog");
                     description.requestFocus();
                 }
             }
@@ -164,7 +164,7 @@ public class WalletActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        DatePickerDialog dpd = (DatePickerDialog) getFragmentManager().findFragmentByTag("dateDialog");
+        DatePickerDialog dpd = (DatePickerDialog) getSupportFragmentManager().findFragmentByTag("dateDialog");
         if (dpd != null) dpd.setOnDateSetListener(dateListener);
     }
 
@@ -265,33 +265,33 @@ public class WalletActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.appDeleteBar:
-                if (walletId != null) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle(context.getString(R.string.areYouSure));
-                    builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            walletEntityDao.deleteByKey(walletId);
-                            dialog.dismiss();
-                            finish();
-                        }
-                    });
-                    builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                    ViewGroup viewGroup = (ViewGroup) dialog.findViewById(android.R.id.content);
-                    new FontChangeCrawler(context.getAssets(), IRANSANS_LT).replaceFonts(viewGroup);
-                }
-                return true;
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.appDeleteBar) {
+            if (walletId != null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(context.getString(R.string.areYouSure));
+                builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        walletEntityDao.deleteByKey(walletId);
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
+                builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                ViewGroup viewGroup = (ViewGroup) dialog.findViewById(android.R.id.content);
+                new FontChangeCrawler(context.getAssets(), IRANSANS_LT).replaceFonts(viewGroup);
+            }
+            return true;
         }
+
+        // If we got here, the user's action was not recognized.
+        // Invoke the superclass to handle it.
+        return super.onOptionsItemSelected(item);
+
     }
 }

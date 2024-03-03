@@ -2,8 +2,6 @@ package ir.behrooz.loan.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +21,9 @@ import ir.behrooz.loan.model.SortModel;
 
 import static ir.behrooz.loan.model.SortModel.Sort.ASC;
 import static ir.behrooz.loan.model.SortModel.Sort.DESC;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 /**
  * Created by Behrooz Mohamadi on 16/10/28.

@@ -4,13 +4,15 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.AppBarLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.appbar.AppBarLayout;
 
 public class DebitCreditHelpActivity extends AppCompatActivity {
     public String color = "#00C853";

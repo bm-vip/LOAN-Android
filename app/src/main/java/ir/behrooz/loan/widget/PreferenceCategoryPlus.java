@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.preference.PreferenceCategory;
-import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
@@ -15,6 +14,8 @@ import ir.behrooz.loan.R;
 import ir.behrooz.loan.common.Constants;
 
 import static ir.behrooz.loan.common.StringUtil.isNullOrEmpty;
+
+import androidx.annotation.RequiresApi;
 
 public class PreferenceCategoryPlus extends PreferenceCategory {
     private final static String PATH_TO_FONT = Constants.IRANSANS_MD;

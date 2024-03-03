@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.preference.Preference;
-import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,8 @@ import ir.behrooz.loan.common.Constants;
 import ir.behrooz.loan.common.FontChangeCrawler;
 
 import static ir.behrooz.loan.common.StringUtil.isNullOrEmpty;
+
+import androidx.annotation.RequiresApi;
 
 public class PreferencePlus extends Preference {
     private final static String PATH_TO_FONT = Constants.IRANSANS_LT;

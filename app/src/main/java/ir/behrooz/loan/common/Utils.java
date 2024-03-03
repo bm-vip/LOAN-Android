@@ -13,16 +13,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-
-import com.mojtaba.materialdatetimepicker.utils.LanguageUtils;
 
 import java.util.List;
 import java.util.Locale;
@@ -33,6 +28,10 @@ import ir.behrooz.loan.entity.CashtEntity;
 import ir.behrooz.loan.model.NotificationModel;
 
 import static ir.behrooz.loan.common.Constants.VERSION;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 
 public class Utils {

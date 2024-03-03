@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -168,7 +167,7 @@ public class PersonActivity extends BaseActivity {
                                     ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
 
                             if (phoneCur.moveToFirst()) {
-                                String[] displayName = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)).split(" ");
+                                String[] displayName = phoneCur.getString(phoneCur.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)).split(" ");
                                 StringBuilder builder = new StringBuilder();
                                 for (int i = 0; i < displayName.length; i++) {
                                     if (i == 0)
@@ -179,8 +178,9 @@ public class PersonActivity extends BaseActivity {
                                     }
                                 }
                                 this.family.setText(builder.toString());
-                                String number = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                                String number = phoneCur.getString(phoneCur.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
                                 this.phone.setText(fixWeakCharacters(number.trim().replace(" ", "")));
+
                             }
                             id = null;
                             phoneCur = null;
@@ -209,35 +209,32 @@ public class PersonActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.appDeleteBar:
-                if (personId != null) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle(getString(R.string.areYouSure));
-                    builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            deletePerson(personId);
-                            dialog.dismiss();
-                            finish();
-                        }
-                    });
-                    builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                    ViewGroup viewGroup = (ViewGroup) dialog.findViewById(android.R.id.content);
-                    new FontChangeCrawler(context.getAssets(), IRANSANS_LT).replaceFonts(viewGroup);
-                }
-                return true;
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-
+        if (item.getItemId() == R.id.appDeleteBar) {
+            if (personId != null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(getString(R.string.areYouSure));
+                builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        deletePerson(personId);
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
+                builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                ViewGroup viewGroup = (ViewGroup) dialog.findViewById(android.R.id.content);
+                new FontChangeCrawler(context.getAssets(), IRANSANS_LT).replaceFonts(viewGroup);
+            }
+            return true;
         }
+        // If we got here, the user's action was not recognized.
+        // Invoke the superclass to handle it.
+        return super.onOptionsItemSelected(item);
     }
     private void deletePerson(long personId) {
         loanEntityDao.queryBuilder().where(LoanEntityDao.Properties.PersonId.eq(personId)).buildDelete().executeDeleteWithoutDetachingEntities();

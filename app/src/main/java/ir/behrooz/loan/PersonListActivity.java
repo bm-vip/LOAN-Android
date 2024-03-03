@@ -10,15 +10,10 @@ import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintJob;
 import android.print.PrintManager;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -42,6 +37,12 @@ import ir.behrooz.loan.model.SortModel;
 import ir.behrooz.loan.report.PersonListPDF;
 
 import static ir.behrooz.loan.common.sql.DBUtil.orderBy;
+
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 public class PersonListActivity extends BaseActivity {
@@ -92,43 +93,40 @@ public class PersonListActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.appSortBar:
-                FragmentManager fm = getSupportFragmentManager();
-                PersonSortFragment personSortFragment = PersonSortFragment.newInstance();
-                personSortFragment.setCompleteListener(new CompleteListener() {
-                    @Override
-                    public void onComplete(Object obj) {
-                        sortModels = (List<SortModel>) obj;
-                        adapter = new PersonListAdapter(context, search());
-                        recyclerView.setAdapter(adapter);
-                        adapter.setOnItemClickListner(new PersonListAdapter.OnItemClickListner() {
-                            @Override
-                            public void onClick(Long id) {
-                                FragmentManager fm = getSupportFragmentManager();
-                                PersonMenuFragment personMenuFragment = PersonMenuFragment.newInstance(id);
-                                personMenuFragment.show(fm, "fragment_menu");
-                            }
-                        });
-                    }
-                });
-                personSortFragment.show(fm, "fragment_sort");
-                return true;
-            case R.id.appPrintBar:
-                String fileName = "PersonList_".concat(DateUtil.toPersianWithTimeString(new Date())).concat(".pdf");
-                print(fileName,
-                        new PdfDocumentAdapter(context, fileName),
-                        new PrintAttributes.Builder().build());
-                return true;
-            case R.id.appHelpBar:
-                startActivity(new Intent(this, PersonHelpActivity.class));
-                return true;
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-
+        if (item.getItemId() == R.id.personAppSortBar) {
+            FragmentManager fm = getSupportFragmentManager();
+            PersonSortFragment personSortFragment = PersonSortFragment.newInstance();
+            personSortFragment.setCompleteListener(new CompleteListener() {
+                @Override
+                public void onComplete(Object obj) {
+                    sortModels = (List<SortModel>) obj;
+                    adapter = new PersonListAdapter(context, search());
+                    recyclerView.setAdapter(adapter);
+                    adapter.setOnItemClickListner(new PersonListAdapter.OnItemClickListner() {
+                        @Override
+                        public void onClick(Long id) {
+                            FragmentManager fm = getSupportFragmentManager();
+                            PersonMenuFragment personMenuFragment = PersonMenuFragment.newInstance(id);
+                            personMenuFragment.show(fm, "fragment_menu");
+                        }
+                    });
+                }
+            });
+            personSortFragment.show(fm, "fragment_sort");
+            return true;
+        } else if (item.getItemId() == R.id.personAppPrintBar) {
+            String fileName = "PersonList_".concat(DateUtil.toPersianWithTimeString(new Date())).concat(".pdf");
+            print(fileName,
+                    new PdfDocumentAdapter(context, fileName),
+                    new PrintAttributes.Builder().build());
+            return true;
+        } else if (item.getItemId() == R.id.personAppHelpBar) {
+            startActivity(new Intent(this, PersonHelpActivity.class));
+            return true;
         }
+        // If we got here, the user's action was not recognized.
+        // Invoke the superclass to handle it.
+        return super.onOptionsItemSelected(item);
     }
 
     private List<PersonEntity> search() {
@@ -152,11 +150,11 @@ public class PersonListActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.person_search_view, menu);
-        MenuItem mSearch = menu.findItem(R.id.appSearchBar);
+        MenuItem mSearch = menu.findItem(R.id.singleAppSearchBar);
 
         SearchView mSearchView = (SearchView) mSearch.getActionView();
-        TextView searchText = (TextView) mSearchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        searchText.setTypeface(Typeface.createFromAsset(getAssets(), Constants.IRANSANS_LT));
+//        TextView searchText = (TextView) mSearchView.findViewById(R.id.search_src_text);
+//        searchText.setTypeface(Typeface.createFromAsset(getAssets(), Constants.IRANSANS_LT));
         mSearchView.setQueryHint(getString(R.string.search));
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

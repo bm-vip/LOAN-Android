@@ -2,8 +2,6 @@ package ir.behrooz.loan.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -28,6 +26,9 @@ import ir.behrooz.loan.model.PersonModel;
 
 import static ir.behrooz.loan.entity.PersonEntityDao.Properties.Family;
 import static ir.behrooz.loan.entity.PersonEntityDao.Properties.Name;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 /**
  * Created by Behrooz Mohamadi on 16/10/28.

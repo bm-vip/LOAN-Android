@@ -1,19 +1,16 @@
 package ir.behrooz.loan.fragment;
 
+import static ir.behrooz.loan.common.Utils.getVersion;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.mojtaba.materialdatetimepicker.utils.LanguageUtils;
-
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import ir.behrooz.loan.R;
 import ir.behrooz.loan.common.CompleteListener;
-
-import static ir.behrooz.loan.common.Utils.getVersion;
+import ir.behrooz.loan.common.LanguageUtils;
 
 /**
  * Created by Behrooz Mohamadi on 16/10/28.

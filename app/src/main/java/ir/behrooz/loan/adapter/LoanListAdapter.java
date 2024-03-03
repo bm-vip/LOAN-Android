@@ -4,15 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.mojtaba.materialdatetimepicker.utils.LanguageUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -30,6 +29,7 @@ import ir.behrooz.loan.entity.DebitCreditEntityDao;
 import ir.behrooz.loan.entity.LoanEntity;
 import ir.behrooz.loan.entity.PersonEntity;
 import ir.behrooz.loan.entity.PersonEntityDao;
+import ir.behrooz.loan.common.LanguageUtils;
 
 import static ir.behrooz.loan.common.StringUtil.moneySeparator;
 import static ir.behrooz.loan.common.Utils.landScape;

@@ -138,7 +138,7 @@ public class ImageUtil {
             return contentUri.getPath();
         } else {
             cursor.moveToFirst();
-            int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            int index = cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA);
             return cursor.getString(index);
         }
     }
@@ -149,7 +149,7 @@ public class ImageUtil {
             return contentUri.getPath();
         } else {
             cursor.moveToFirst();
-            int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            int index = cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA);
             return cursor.getString(index);
         }
     }

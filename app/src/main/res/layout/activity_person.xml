@@ -18,7 +18,7 @@
         android:paddingTop="0dp"
         android:paddingRight="@dimen/appbar_padding_top"
         android:paddingBottom="@dimen/appbar_padding_top"
-        tools:context="ir.behrooz.loan.WalletActivity">
+        tools:context="ir.behrooz.loan.PersonActivity">
 
         <LinearLayout
             android:layout_width="match_parent"

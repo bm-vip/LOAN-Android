@@ -12,11 +12,6 @@ import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintJob;
 import android.print.PrintManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,6 +43,12 @@ import ir.behrooz.loan.model.SortModel;
 import ir.behrooz.loan.report.DebitCreditListPDF;
 
 import static ir.behrooz.loan.common.sql.DBUtil.orderBy;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class DebitCreditListActivity extends BaseActivity {
     public RecyclerView recyclerView;
@@ -126,51 +127,50 @@ public class DebitCreditListActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         FragmentManager fm = getSupportFragmentManager();
-        switch (item.getItemId()) {
-            case R.id.appSortBar:
-                DebitCreditSortFragment debitCreditSortFragment = DebitCreditSortFragment.newInstance(color);
-                debitCreditSortFragment.setCompleteListener(new CompleteListener() {
-                    @Override
-                    public void onComplete(Object obj) {
-                        sortModels = (List<SortModel>) obj;
-                        adapter = new DebitCreditListAdapter(context, color, search(10, 0));
-                        recyclerView.setAdapter(adapter);
-                    }
-                });
-                debitCreditSortFragment.show(fm, "fragment_sort");
-                return true;
-
-            case R.id.appSearchBar:
-                DebitCreditSearchFragment debitCreditSearchFragment = DebitCreditSearchFragment.newInstance(color, cashtEntity.getId());
-                debitCreditSearchFragment.setCompleteListener(new CompleteListener() {
-                    @Override
-                    public void onComplete(Object obj) {
-                        search = (String) obj;
-                        adapter = new DebitCreditListAdapter(context, color, search(10, 0));
-                        recyclerView.setAdapter(adapter);
-                    }
-                });
-                debitCreditSearchFragment.show(fm, "fragment_search");
-                return true;
-            case R.id.appPrintBar:
-                String fileName = "Installment_".concat(DateUtil.toPersianWithTimeString(new Date())).concat(".pdf");
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    print(fileName,
-                            new PdfDocumentAdapter(context, fileName),
-                            new PrintAttributes.Builder().build());
+        if (item.getItemId() == R.id.appDeleteBar) {
+            DebitCreditSortFragment debitCreditSortFragment = DebitCreditSortFragment.newInstance(color);
+            debitCreditSortFragment.setCompleteListener(new CompleteListener() {
+                @Override
+                public void onComplete(Object obj) {
+                    sortModels = (List<SortModel>) obj;
+                    adapter = new DebitCreditListAdapter(context, color, search(10, 0));
+                    recyclerView.setAdapter(adapter);
                 }
-                return true;
-            case R.id.appHelpBar:
-                Intent intent = new Intent(this, DebitCreditHelpActivity.class);
-                intent.putExtra("color", color);
-                startActivity(intent);
-                return true;
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
+            });
+            debitCreditSortFragment.show(fm, "fragment_sort");
+            return true;
+        } else if (item.getItemId() == R.id.appSearchBar) {
+            DebitCreditSearchFragment debitCreditSearchFragment = DebitCreditSearchFragment.newInstance(color, cashtEntity.getId());
+            debitCreditSearchFragment.setCompleteListener(new CompleteListener() {
+                @Override
+                public void onComplete(Object obj) {
+                    search = (String) obj;
+                    adapter = new DebitCreditListAdapter(context, color, search(10, 0));
+                    recyclerView.setAdapter(adapter);
+                }
+            });
+            debitCreditSearchFragment.show(fm, "fragment_search");
+            return true;
+        } else if (item.getItemId() == R.id.appPrintBar) {
 
+            String fileName = "Installment_".concat(DateUtil.toPersianWithTimeString(new Date())).concat(".pdf");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                print(fileName,
+                        new PdfDocumentAdapter(context, fileName),
+                        new PrintAttributes.Builder().build());
+            }
+            return true;
+        } else if (item.getItemId() == R.id.appHelpBar) {
+
+            Intent intent = new Intent(this, DebitCreditHelpActivity.class);
+            intent.putExtra("color", color);
+            startActivity(intent);
+            return true;
         }
+
+        // If we got here, the user's action was not recognized.
+        // Invoke the superclass to handle it.
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

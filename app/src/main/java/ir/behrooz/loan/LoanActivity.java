@@ -6,8 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -24,9 +22,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.mojtaba.materialdatetimepicker.date.DatePickerDialog;
-import com.mojtaba.materialdatetimepicker.utils.LanguageUtils;
-import com.mojtaba.materialdatetimepicker.utils.PersianCalendar;
+import com.google.android.material.snackbar.Snackbar;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,6 +33,8 @@ import java.util.List;
 import ir.behrooz.loan.common.BaseActivity;
 import ir.behrooz.loan.common.CompleteListener;
 import ir.behrooz.loan.common.FontChangeCrawler;
+import ir.behrooz.loan.common.LanguageUtils;
+import ir.behrooz.loan.common.calendar.PersianCalendar;
 import ir.behrooz.loan.common.sql.DBUtil;
 import ir.behrooz.loan.common.sql.Oprator;
 import ir.behrooz.loan.common.sql.WhereCondition;
@@ -69,6 +68,8 @@ import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.Id;
 import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.LoanId;
 import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.PayStatus;
 import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.Value;
+
+import androidx.fragment.app.FragmentManager;
 
 public class LoanActivity extends BaseActivity {
 
@@ -130,7 +131,7 @@ public class LoanActivity extends BaseActivity {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (b && dpd != null) {
-                    dpd.show(getFragmentManager(), "dateDialog");
+                    dpd.show(getSupportFragmentManager(), "dateDialog");
                     if (cashtEntity.getWithDeposit())
                         saveLoanBtn.requestFocus();
                 }
@@ -154,7 +155,7 @@ public class LoanActivity extends BaseActivity {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (b && wdpd != null) {
-                    wdpd.show(getFragmentManager(), "winDateDialog");
+                    wdpd.show(getSupportFragmentManager(), "winDateDialog");
                     if (!cashtEntity.getWithDeposit())
                         saveLoanBtn.requestFocus();
                 }
@@ -271,7 +272,7 @@ public class LoanActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        DatePickerDialog dpd = (DatePickerDialog) getFragmentManager().findFragmentByTag("dateDialog");
+        DatePickerDialog dpd = (DatePickerDialog) getSupportFragmentManager().findFragmentByTag("dateDialog");
         if (dpd != null) dpd.setOnDateSetListener(dateListener);
         if (cashtEntity.getWithDeposit()) {
             lblDate.setText(context.getString(R.string.receiveDate));
@@ -281,7 +282,7 @@ public class LoanActivity extends BaseActivity {
             lblDate.setText(context.getString(R.string.subscribeDate));
             date.setHint(context.getString(R.string.subscribeDate));
             winDateLinearLayout.setVisibility(View.VISIBLE);
-            DatePickerDialog wdpd = (DatePickerDialog) getFragmentManager().findFragmentByTag("winDateDialog");
+            DatePickerDialog wdpd = (DatePickerDialog) getSupportFragmentManager().findFragmentByTag("winDateDialog");
             if (wdpd != null) wdpd.setOnDateSetListener(winDateListener);
         }
     }
@@ -513,34 +514,33 @@ public class LoanActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.appDeleteBar:
-                if (loanId != null) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle(context.getString(R.string.areYouSure));
-                    builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            deleteLoan(loanId);
-                            dialog.dismiss();
-                            finish();
-                        }
-                    });
-                    builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                    ViewGroup viewGroup = (ViewGroup) dialog.findViewById(android.R.id.content);
-                    new FontChangeCrawler(context.getAssets(), IRANSANS_LT).replaceFonts(viewGroup);
-                }
-                return true;
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.appDeleteBar) {
+            if (loanId != null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(context.getString(R.string.areYouSure));
+                builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        deleteLoan(loanId);
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
+                builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                ViewGroup viewGroup = (ViewGroup) dialog.findViewById(android.R.id.content);
+                new FontChangeCrawler(context.getAssets(), IRANSANS_LT).replaceFonts(viewGroup);
+            }
+            return true;
         }
+
+        // If we got here, the user's action was not recognized.
+        // Invoke the superclass to handle it.
+        return super.onOptionsItemSelected(item);
     }
 
     private void deleteLoan(Long loanId) {

@@ -4,8 +4,6 @@ import android.content.Context;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-import com.mojtaba.materialdatetimepicker.utils.LanguageUtils;
-
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
