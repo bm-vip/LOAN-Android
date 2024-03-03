@@ -9,8 +9,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.SearchView;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.SearchView;
 
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,7 +26,6 @@ import ir.behrooz.loan.common.Constants;
 import ir.behrooz.loan.common.sql.DBUtil;
 import ir.behrooz.loan.entity.CashtEntity;
 import ir.behrooz.loan.entity.CashtEntityDao;
-import ir.behrooz.loan.R;
 
 public class CashListActivity extends BaseActivity {
     private RecyclerView recyclerView;
@@ -73,12 +73,14 @@ public class CashListActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.cash_search_view, menu);
-        MenuItem mSearch = menu.findItem(R.id.appSearchBar);
+        getMenuInflater().inflate(R.menu.single_search_view, menu);
+        MenuItem mSearch = menu.findItem(R.id.singleAppSearchBar);
 
         SearchView mSearchView = (SearchView) mSearch.getActionView();
-//        TextView searchText = (TextView) mSearchView.findViewById(R.id.search_src_text);
-//        searchText.setTypeface(Typeface.createFromAsset(getAssets(), Constants.IRANSANS_LT));
+        int searchPlateId = mSearchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        TextView searchText = mSearchView.findViewById(searchPlateId);
+        if(searchText!=null)
+            searchText.setTypeface(Typeface.createFromAsset(getAssets(), Constants.IRANSANS_LT));
         mSearchView.setQueryHint(getString(R.string.search));
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

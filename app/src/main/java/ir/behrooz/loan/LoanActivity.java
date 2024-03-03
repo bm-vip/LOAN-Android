@@ -1,5 +1,25 @@
 package ir.behrooz.loan;
 
+import static ir.behrooz.loan.common.Constants.IRANSANS_LT;
+import static ir.behrooz.loan.common.DateUtil.addMonth;
+import static ir.behrooz.loan.common.DateUtil.addZero;
+import static ir.behrooz.loan.common.DateUtil.set;
+import static ir.behrooz.loan.common.DateUtil.toGregorian;
+import static ir.behrooz.loan.common.DateUtil.toPersianString;
+import static ir.behrooz.loan.common.NumberUtil.getLong;
+import static ir.behrooz.loan.common.NumberUtil.isNullOrZero;
+import static ir.behrooz.loan.common.NumberUtil.round;
+import static ir.behrooz.loan.common.StringUtil.fixWeakCharacters;
+import static ir.behrooz.loan.common.StringUtil.moneySeparator;
+import static ir.behrooz.loan.common.StringUtil.onChangedEditText;
+import static ir.behrooz.loan.common.StringUtil.removeSeparator;
+import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.CashId;
+import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.Date;
+import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.Id;
+import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.LoanId;
+import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.PayStatus;
+import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.Value;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -22,8 +42,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentManager;
+
 import com.google.android.material.snackbar.Snackbar;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.mojtaba.materialdatetimepicker.date.DatePickerDialog;
+import com.mojtaba.materialdatetimepicker.utils.PersianCalendar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,7 +57,6 @@ import ir.behrooz.loan.common.BaseActivity;
 import ir.behrooz.loan.common.CompleteListener;
 import ir.behrooz.loan.common.FontChangeCrawler;
 import ir.behrooz.loan.common.LanguageUtils;
-import ir.behrooz.loan.common.calendar.PersianCalendar;
 import ir.behrooz.loan.common.sql.DBUtil;
 import ir.behrooz.loan.common.sql.Oprator;
 import ir.behrooz.loan.common.sql.WhereCondition;
@@ -48,28 +70,6 @@ import ir.behrooz.loan.entity.PersonEntityDao;
 import ir.behrooz.loan.entity.WalletEntityDao;
 import ir.behrooz.loan.fragment.PersonSearchFragment;
 import ir.behrooz.loan.model.PersonModel;
-
-import static ir.behrooz.loan.common.Constants.IRANSANS_LT;
-import static ir.behrooz.loan.common.DateUtil.addMonth;
-import static ir.behrooz.loan.common.DateUtil.addZero;
-import static ir.behrooz.loan.common.DateUtil.set;
-import static ir.behrooz.loan.common.DateUtil.toGregorian;
-import static ir.behrooz.loan.common.DateUtil.toPersianString;
-import static ir.behrooz.loan.common.NumberUtil.getLong;
-import static ir.behrooz.loan.common.NumberUtil.isNullOrZero;
-import static ir.behrooz.loan.common.NumberUtil.round;
-import static ir.behrooz.loan.common.StringUtil.fixWeakCharacters;
-import static ir.behrooz.loan.common.StringUtil.moneySeparator;
-import static ir.behrooz.loan.common.StringUtil.onChangedEditText;
-import static ir.behrooz.loan.common.StringUtil.removeSeparator;
-import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.CashId;
-import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.Date;
-import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.Id;
-import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.LoanId;
-import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.PayStatus;
-import static ir.behrooz.loan.entity.DebitCreditEntityDao.Properties.Value;
-
-import androidx.fragment.app.FragmentManager;
 
 public class LoanActivity extends BaseActivity {
 

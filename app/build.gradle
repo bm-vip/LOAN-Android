@@ -43,10 +43,9 @@ android {
 }
 
 dependencies {
-    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
+    implementation project(':libs:MaterialDatePicker')
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'android.arch.navigation:navigation-fragment:1.0.0'
-//    implementation 'android.arch.navigation:navigation-ui:1.0.0'
     testImplementation 'junit:junit:4.12'
     implementation 'androidx.core:core:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'

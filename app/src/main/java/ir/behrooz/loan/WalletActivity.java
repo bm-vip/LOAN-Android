@@ -28,7 +28,6 @@ import ir.behrooz.loan.common.CompleteListener;
 import ir.behrooz.loan.common.DateUtil;
 import ir.behrooz.loan.common.FontChangeCrawler;
 import ir.behrooz.loan.common.LanguageUtils;
-import ir.behrooz.loan.common.calendar.PersianCalendar;
 import ir.behrooz.loan.common.sql.DBUtil;
 import ir.behrooz.loan.entity.CashtEntity;
 import ir.behrooz.loan.entity.PersonEntity;
@@ -48,7 +47,8 @@ import static ir.behrooz.loan.common.StringUtil.removeSeparator;
 
 import androidx.fragment.app.FragmentManager;
 
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.mojtaba.materialdatetimepicker.date.DatePickerDialog;
+import com.mojtaba.materialdatetimepicker.utils.PersianCalendar;
 
 public class WalletActivity extends BaseActivity {
 

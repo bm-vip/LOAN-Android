@@ -13,7 +13,6 @@ import android.print.PrintManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -39,6 +38,7 @@ import ir.behrooz.loan.report.PersonListPDF;
 import static ir.behrooz.loan.common.sql.DBUtil.orderBy;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -93,7 +93,7 @@ public class PersonListActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.personAppSortBar) {
+        if (item.getItemId() == R.id.personSortBar) {
             FragmentManager fm = getSupportFragmentManager();
             PersonSortFragment personSortFragment = PersonSortFragment.newInstance();
             personSortFragment.setCompleteListener(new CompleteListener() {
@@ -114,13 +114,13 @@ public class PersonListActivity extends BaseActivity {
             });
             personSortFragment.show(fm, "fragment_sort");
             return true;
-        } else if (item.getItemId() == R.id.personAppPrintBar) {
+        } else if (item.getItemId() == R.id.personPrintBar) {
             String fileName = "PersonList_".concat(DateUtil.toPersianWithTimeString(new Date())).concat(".pdf");
             print(fileName,
                     new PdfDocumentAdapter(context, fileName),
                     new PrintAttributes.Builder().build());
             return true;
-        } else if (item.getItemId() == R.id.personAppHelpBar) {
+        } else if (item.getItemId() == R.id.personHelpBar) {
             startActivity(new Intent(this, PersonHelpActivity.class));
             return true;
         }
@@ -150,11 +150,13 @@ public class PersonListActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.person_search_view, menu);
-        MenuItem mSearch = menu.findItem(R.id.singleAppSearchBar);
+        MenuItem mSearch = menu.findItem(R.id.personSearchBar);
 
         SearchView mSearchView = (SearchView) mSearch.getActionView();
-//        TextView searchText = (TextView) mSearchView.findViewById(R.id.search_src_text);
-//        searchText.setTypeface(Typeface.createFromAsset(getAssets(), Constants.IRANSANS_LT));
+        int searchPlateId = mSearchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        TextView searchText = mSearchView.findViewById(searchPlateId);
+        if(searchText!=null)
+            searchText.setTypeface(Typeface.createFromAsset(getAssets(), Constants.IRANSANS_LT));
         mSearchView.setQueryHint(getString(R.string.search));
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

@@ -1,0 +1,27 @@
+apply plugin: 'com.android.library'
+
+android {
+    namespace "com.mojtaba.materialdatetimepicker"
+    compileSdkVersion project.ANDROID_BUILD_SDK_VERSION.toInteger()
+
+    defaultConfig {
+        minSdkVersion project.ANDROID_BUILD_MIN_SDK_VERSION.toInteger()
+        targetSdkVersion project.ANDROID_BUILD_TARGET_SDK_VERSION.toInteger()
+        versionName project.VERSION_NAME
+        versionCode project.VERSION_CODE.toInteger()
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.0.0'
+}
+
+//apply from: 'gradle-mvn-push.gradle'

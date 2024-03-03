@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/personAppSearchBar"
+    <item android:id="@+id/personSearchBar"
         android:icon="@drawable/ic_search"
         android:title="@string/search"
         app:showAsAction="ifRoom|withText"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
-    <item android:id="@+id/personAppSortBar"
+    <item android:id="@+id/personSortBar"
         app:showAsAction="ifRoom|withText"
         android:icon="@drawable/ic_sort_white_24dp"
         android:title="@string/sort" />
-    <item android:id="@+id/personAppPrintBar"
+    <item android:id="@+id/personPrintBar"
         app:showAsAction="ifRoom|withText"
         android:icon="@drawable/ic_print_white_24dp"
         android:title="@string/print" />
-    <item android:id="@+id/personAppHelpBar"
+    <item android:id="@+id/personHelpBar"
         app:showAsAction="ifRoom|withText"
         android:icon="@drawable/ic_help_white_24dp"
         android:title="@string/help" />

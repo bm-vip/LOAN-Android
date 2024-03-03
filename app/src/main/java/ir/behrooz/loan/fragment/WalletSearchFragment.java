@@ -1,5 +1,10 @@
 package ir.behrooz.loan.fragment;
 
+import static ir.behrooz.loan.common.DateUtil.addZero;
+import static ir.behrooz.loan.common.StringUtil.fixWeakCharacters;
+import static ir.behrooz.loan.common.StringUtil.onChangedEditText;
+import static ir.behrooz.loan.common.StringUtil.removeSeparator;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,27 +16,24 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+
+import com.mojtaba.materialdatetimepicker.date.DatePickerDialog;
+import com.mojtaba.materialdatetimepicker.utils.PersianCalendar;
+
 import java.util.List;
+
 import ir.behrooz.loan.R;
 import ir.behrooz.loan.common.CompleteListener;
 import ir.behrooz.loan.common.Constants;
 import ir.behrooz.loan.common.DateUtil;
 import ir.behrooz.loan.common.FontChangeCrawler;
 import ir.behrooz.loan.common.LanguageUtils;
-import ir.behrooz.loan.common.calendar.PersianCalendar;
 import ir.behrooz.loan.model.PersonModel;
 import ir.behrooz.loan.model.SortModel;
-
-import static ir.behrooz.loan.common.DateUtil.addZero;
-import static ir.behrooz.loan.common.StringUtil.fixWeakCharacters;
-import static ir.behrooz.loan.common.StringUtil.onChangedEditText;
-import static ir.behrooz.loan.common.StringUtil.removeSeparator;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
-
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 /**
  * Created by Behrooz Mohamadi on 16/10/28.
