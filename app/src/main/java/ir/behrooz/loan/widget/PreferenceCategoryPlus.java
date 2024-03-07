@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.preference.PreferenceCategory;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
@@ -16,6 +15,8 @@ import ir.behrooz.loan.common.Constants;
 import static ir.behrooz.loan.common.StringUtil.isNullOrEmpty;
 
 import androidx.annotation.RequiresApi;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceViewHolder;
 
 public class PreferenceCategoryPlus extends PreferenceCategory {
     private final static String PATH_TO_FONT = Constants.IRANSANS_MD;
@@ -24,7 +25,7 @@ public class PreferenceCategoryPlus extends PreferenceCategory {
     private Typeface font;
     AttributeSet attrs;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
     public PreferenceCategoryPlus(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         this.attrs = attrs;
@@ -44,10 +45,11 @@ public class PreferenceCategoryPlus extends PreferenceCategory {
         super(context);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    protected void onBindView(View view) {
-        super.onBindView(view);
-        initializeAttributes(view);
+    public void onBindViewHolder(PreferenceViewHolder holder) {
+        super.onBindViewHolder(holder);
+        initializeAttributes(holder.itemView);
     }
 
     private void initializeAttributes(View view) {

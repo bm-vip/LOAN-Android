@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -38,8 +39,11 @@ import static ir.behrooz.loan.common.Constants.IRANSANS_LT;
 import static ir.behrooz.loan.common.StringUtil.fixWeakCharacters;
 import static ir.behrooz.loan.common.StringUtil.isMobileValid;
 
-public class PersonActivity extends BaseActivity {
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+public class PersonActivity extends BaseActivity {
+    private static final int ADD_CONTACT_NUMBER_REQUEST =  99;
     private EditText name, family, phone, nationalCode;
     private Long personId;
     private PersonEntityDao personEntityDao;
@@ -52,7 +56,7 @@ public class PersonActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person);
 //        titleBar.setText(getString(R.string.title_activity_person));
-        Utils.askForPermission(this, Manifest.permission.READ_CONTACTS, 1);
+        Utils.askForPermission(this, Manifest.permission.READ_CONTACTS, ADD_CONTACT_NUMBER_REQUEST);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#3F51B5")));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(Color.parseColor("#3F51B5"));
@@ -146,15 +150,21 @@ public class PersonActivity extends BaseActivity {
     }
 
     public void addNumber(View view) {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, ADD_CONTACT_NUMBER_REQUEST);
+            Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+            startActivityForResult(intent, ADD_CONTACT_NUMBER_REQUEST);
+            return;
+        }
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-        startActivityForResult(intent, 99);
+        startActivityForResult(intent, ADD_CONTACT_NUMBER_REQUEST);
     }
 
     @Override
     public void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
         switch (reqCode) {
-            case (99):
+            case (ADD_CONTACT_NUMBER_REQUEST):
                 try {
                     if (resultCode == Activity.RESULT_OK) {
                         Uri contactData = data.getData();
@@ -163,8 +173,7 @@ public class PersonActivity extends BaseActivity {
 
                         if (cur.moveToFirst()) {
                             String id = cur.getString(cur.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
-                            Cursor phoneCur = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
+                            Cursor phoneCur = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
 
                             if (phoneCur.moveToFirst()) {
                                 String[] displayName = phoneCur.getString(phoneCur.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)).split(" ");

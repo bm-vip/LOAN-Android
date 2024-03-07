@@ -9,10 +9,11 @@ import android.widget.TextView;
 
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class PersonHelpActivity extends AppCompatActivity {
+import ir.behrooz.loan.common.BaseActivity;
+
+public class PersonHelpActivity extends BaseActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override

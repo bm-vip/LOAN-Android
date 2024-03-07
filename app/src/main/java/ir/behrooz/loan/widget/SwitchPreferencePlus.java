@@ -5,11 +5,14 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.preference.SwitchPreference;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
+import androidx.preference.PreferenceViewHolder;
+import androidx.preference.SwitchPreferenceCompat;
 
 import ir.behrooz.loan.R;
 import ir.behrooz.loan.common.Constants;
@@ -17,9 +20,8 @@ import ir.behrooz.loan.common.FontChangeCrawler;
 
 import static ir.behrooz.loan.common.StringUtil.isNullOrEmpty;
 
-import androidx.annotation.RequiresApi;
+public class SwitchPreferencePlus extends SwitchPreferenceCompat {
 
-public class SwitchPreferencePlus extends SwitchPreference {
     private final static String PATH_TO_FONT = Constants.IRANSANS_LT;
     private final static int DEFAULT_ICON_SIZE = 14;
     private final static int DEFAULT_ICON_COLOR = Color.GRAY;
@@ -46,13 +48,12 @@ public class SwitchPreferencePlus extends SwitchPreference {
         super(context);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    protected void onBindView(View view) {
-        super.onBindView(view);
-        initialize(view);
-        initializeAttributes(view);
+    public void onBindViewHolder(PreferenceViewHolder holder) {
+        super.onBindViewHolder(holder);
+        initializeAttributes(holder.itemView);
     }
-
 
     private void initialize(View view) {
         font = Typeface.createFromAsset(getContext().getAssets(), PATH_TO_FONT);

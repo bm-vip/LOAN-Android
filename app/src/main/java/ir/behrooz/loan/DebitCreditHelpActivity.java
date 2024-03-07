@@ -14,7 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.AppBarLayout;
 
-public class DebitCreditHelpActivity extends AppCompatActivity {
+import ir.behrooz.loan.common.BaseActivity;
+
+public class DebitCreditHelpActivity extends BaseActivity {
     public String color = "#00C853";
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override

@@ -2,19 +2,20 @@ package ir.behrooz.loan.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.ScrollView;
+import androidx.core.widget.NestedScrollView;
 
-public class ScrollViewPlus extends ScrollView {
+public class NestedScrollViewPlus extends NestedScrollView { // Rename the class
     private ScrollViewListener scrollViewListener = null;
-    public ScrollViewPlus(Context context) {
+
+    public NestedScrollViewPlus(Context context) {
         super(context);
     }
 
-    public ScrollViewPlus(Context context, AttributeSet attrs, int defStyle) {
+    public NestedScrollViewPlus(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
-    public ScrollViewPlus(Context context, AttributeSet attrs) {
+    public NestedScrollViewPlus(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -29,10 +30,9 @@ public class ScrollViewPlus extends ScrollView {
             scrollViewListener.onScrollChanged(this, l, t, oldl, oldt);
         }
     }
+
     public interface ScrollViewListener {
-        void onScrollChanged(ScrollViewPlus scrollView,
+        void onScrollChanged(NestedScrollViewPlus scrollView,
                              int x, int y, int oldx, int oldy);
     }
 }
-
-

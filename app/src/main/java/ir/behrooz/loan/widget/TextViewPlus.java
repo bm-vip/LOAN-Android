@@ -5,12 +5,9 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-
 import androidx.appcompat.widget.AppCompatTextView;
-
 import ir.behrooz.loan.R;
 import ir.behrooz.loan.common.Constants;
-
 import static ir.behrooz.loan.common.StringUtil.isNullOrEmpty;
 
 public class TextViewPlus extends AppCompatTextView {
@@ -72,26 +69,24 @@ public class TextViewPlus extends AppCompatTextView {
     private void initText(TypedArray typedArray) {
         String text = typedArray.getString(R.styleable.TextViewPlus_tvp_text);
 
-        if (text == null || text.isEmpty()) {
-            return;
+        if (text != null && !text.isEmpty()) {
+            setText(text);
         }
-
-        setText(text);
     }
 
     private void initSize(TypedArray typedArray) {
-        int IconSize = typedArray.getInt(R.styleable.TextViewPlus_tvp_size, DEFAULT_ICON_SIZE);
-        setTextSize(IconSize);
+        int iconSize = typedArray.getInt(R.styleable.TextViewPlus_tvp_size, DEFAULT_ICON_SIZE);
+        setTextSize(iconSize);
     }
 
     private void initColor(TypedArray typedArray) {
-        int IconColor = typedArray.getColor(R.styleable.TextViewPlus_tvp_color, DEFAULT_ICON_COLOR);
-        setTextColor(IconColor);
+        int iconColor = typedArray.getColor(R.styleable.TextViewPlus_tvp_color, DEFAULT_ICON_COLOR);
+        setTextColor(iconColor);
     }
 
     /**
-     * sets  icon basing on String resources
-     * Icons are created from -icons TTF font by Erik Flowers
+     * Sets icon resource basing on String resources.
+     * Icons are created from -icons TTF font by Erik Flowers.
      * Full icons reference can be found at: http://erikflowers.github.io/-icons/
      *
      * @param iconCode icon code located in res/values/strings.xml file
@@ -101,7 +96,7 @@ public class TextViewPlus extends AppCompatTextView {
     }
 
     /**
-     * sets icon size
+     * Sets icon size.
      *
      * @param size icon size as an integer; default size is equal to 100
      */
@@ -110,9 +105,9 @@ public class TextViewPlus extends AppCompatTextView {
     }
 
     /**
-     * sets icon color resource
+     * Sets icon color resource.
      *
-     * @param colorResource color resource - eg. Color.RED or any custom color; default is Color.BLACK
+     * @param colorResource color resource - e.g., Color.RED or any custom color; default is Color.BLACK
      */
     public void setIconColor(int colorResource) {
         setTextColor(colorResource);

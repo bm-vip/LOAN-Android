@@ -8,8 +8,8 @@ public class Constants {
     public static final String IRANSANS_LT = "fonts/IRANSans-UltraLight-web.ttf";
     public static final String IRANSANS_BL = "fonts/IRANSans-Bold-web.ttf";
     public static final String FONT_AWESOME = "fonts/fontawesome-webfont.ttf";
-
+    public static final String APPLICATION_ID = "ir.behrooz.loan";
     public static final String IMAGE_PATH = "LoanImage";
     public static final String DB_NAME = "Loan.db";
-    public static final String VERSION = "1.41.21";
+    public static final String VERSION = "2.44.24";
 }
