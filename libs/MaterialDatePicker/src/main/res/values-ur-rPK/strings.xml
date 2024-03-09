@@ -29,4 +29,9 @@
     <string name="mdtp_item_is_selected" msgid="2674929164900463786">"<xliff:g id="ITEM">%1$s</xliff:g> منتخب ہوگیا"</string>
     <string name="mdtp_deleted_key" msgid="6908431551612331381">"<xliff:g id="KEY">%1$s</xliff:g> حذف ہوگیا"</string>
     <string name="mdtp_date_v1_monthyear">MMMM yyyy</string>
+    <string name="mdtp_ok">ٹھیک ہے</string>
+    <string name="mdtp_cancel">منسوخ کریں</string>
+    <string name="mdtp_second_picker_description">سیکنڈس سرکیولر اسلائیڈر</string>
+    <string name="mdtp_select_seconds">سیکنڈس منتخب کریں</string>
+
 </resources>

@@ -10,7 +10,7 @@ import static ir.behrooz.loan.common.StringUtil.fixWeakCharacters;
 import static ir.behrooz.loan.common.StringUtil.isNullOrEmpty;
 import static ir.behrooz.loan.common.StringUtil.removeWeakCharacters;
 
-import com.mojtaba.materialdatetimepicker.utils.PersianCalendar;
+import ir.behrooz.materialdatetimepicker.utils.PersianCalendar;
 
 /**
  * Created by Behrooz Mohamadi on 7/5/2018.

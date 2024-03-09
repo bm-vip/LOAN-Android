@@ -29,4 +29,9 @@
     <string name="mdtp_item_is_selected" msgid="2674929164900463786">"<xliff:g id="ITEM">%1$s</xliff:g> seleccionat"</string>
     <string name="mdtp_deleted_key" msgid="6908431551612331381">"<xliff:g id="KEY">%1$s</xliff:g> suprimit"</string>
     <string name="mdtp_date_v1_monthyear">LLLL \'de\' yyyy</string>
+    <string name="mdtp_ok">Dacord</string>
+    <string name="mdtp_cancel">Cancel·lar</string>
+    <string name="mdtp_second_picker_description">Segons lliscant circular</string>
+    <string name="mdtp_select_seconds">Selecciona els segons</string>
+
 </resources>

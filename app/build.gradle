@@ -6,7 +6,7 @@ android {
         loan_release {
             keyAlias 'LOAN'
             keyPassword '123qwe!@#'
-            storeFile file('/home/behrooz/gitHub/loan/app/release/loan.jks')
+            storeFile file('/home/behrooz/gitHub/loan/foka.jks')
             storePassword '123qwe!@#'
         }
     }

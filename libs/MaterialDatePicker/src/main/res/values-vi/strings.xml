@@ -29,4 +29,9 @@
     <string name="mdtp_item_is_selected" msgid="2674929164900463786">"Đã chọn <xliff:g id="ITEM">%1$s</xliff:g>"</string>
     <string name="mdtp_deleted_key" msgid="6908431551612331381">"Đã xóa <xliff:g id="KEY">%1$s</xliff:g>"</string>
     <string name="mdtp_date_v1_monthyear">MMMM yyyy</string>
+    <string name="mdtp_ok">Đồng ý</string>
+    <string name="mdtp_cancel">Hủy</string>
+    <string name="mdtp_second_picker_description">Trình trượt tròn giây</string>
+    <string name="mdtp_select_seconds">Chọn giây</string>
+
 </resources>

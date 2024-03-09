@@ -29,4 +29,9 @@
     <string name="mdtp_item_is_selected" msgid="2674929164900463786">"Odabrana je stavka <xliff:g id="ITEM">%1$s</xliff:g>"</string>
     <string name="mdtp_deleted_key" msgid="6908431551612331381">"Izbrisan je znak <xliff:g id="KEY">%1$s</xliff:g>"</string>
     <string name="mdtp_date_v1_monthyear">LLLL yyyy.</string>
+    <string name="mdtp_ok">U redu</string>
+    <string name="mdtp_cancel">Odustani</string>
+    <string name="mdtp_second_picker_description">Kružni klizač sekundi</string>
+    <string name="mdtp_select_seconds">Odaberite sekunde</string>
+
 </resources>

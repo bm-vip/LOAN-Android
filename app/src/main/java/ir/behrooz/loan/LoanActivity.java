@@ -45,8 +45,8 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.mojtaba.materialdatetimepicker.date.DatePickerDialog;
-import com.mojtaba.materialdatetimepicker.utils.PersianCalendar;
+import ir.behrooz.materialdatetimepicker.date.DatePickerDialog;
+import ir.behrooz.materialdatetimepicker.utils.PersianCalendar;
 
 import java.util.ArrayList;
 import java.util.Calendar;

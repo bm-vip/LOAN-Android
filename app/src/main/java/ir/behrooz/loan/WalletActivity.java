@@ -47,8 +47,8 @@ import static ir.behrooz.loan.common.StringUtil.removeSeparator;
 
 import androidx.fragment.app.FragmentManager;
 
-import com.mojtaba.materialdatetimepicker.date.DatePickerDialog;
-import com.mojtaba.materialdatetimepicker.utils.PersianCalendar;
+import ir.behrooz.materialdatetimepicker.date.DatePickerDialog;
+import ir.behrooz.materialdatetimepicker.utils.PersianCalendar;
 
 public class WalletActivity extends BaseActivity {
 

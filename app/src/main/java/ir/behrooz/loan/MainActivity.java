@@ -190,6 +190,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         if (!preferences.getBoolean("EXIT_AND_BACKUP", true))
             finish();
         else {

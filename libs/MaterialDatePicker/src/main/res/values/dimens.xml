@@ -68,4 +68,10 @@
     <dimen name="mdtp_material_button_textsize">14sp</dimen>
     <dimen name="mdtp_material_button_minwidth">64dp</dimen>
     <dimen name="mdtp_material_button_textpadding_horizontal">8dp</dimen>
+
+    <dimen name="mdtp_left_side_width">270dip</dimen>
+    <dimen name="mdtp_time_label_right_padding">16dp</dimen>
+    <dimen name="mdtp_dialog_height">200dip</dimen>
+    <dimen name="mdtp_month_list_item_padding">20dp</dimen>
+    <dimen name="mdtp_month_list_item_size">18sp</dimen>
 </resources>

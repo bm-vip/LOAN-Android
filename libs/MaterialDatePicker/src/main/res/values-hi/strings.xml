@@ -29,4 +29,9 @@
     <string name="mdtp_item_is_selected" msgid="2674929164900463786">"<xliff:g id="ITEM">%1$s</xliff:g> चयनित"</string>
     <string name="mdtp_deleted_key" msgid="6908431551612331381">"<xliff:g id="KEY">%1$s</xliff:g> को हटा दिया गया"</string>
     <string name="mdtp_date_v1_monthyear">MMMM yyyy</string>
+    <string name="mdtp_ok">ठीक है</string>
+    <string name="mdtp_cancel">रद्द करें</string>
+    <string name="mdtp_second_picker_description">सेकंड्स सर्कुलर स्लाइडर</string>
+    <string name="mdtp_select_seconds">सेकंड्स का चयन करें</string>
+
 </resources>

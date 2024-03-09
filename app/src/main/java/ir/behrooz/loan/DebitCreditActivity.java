@@ -28,8 +28,8 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.mojtaba.materialdatetimepicker.date.DatePickerDialog;
-import com.mojtaba.materialdatetimepicker.utils.PersianCalendar;
+import ir.behrooz.materialdatetimepicker.date.DatePickerDialog;
+import ir.behrooz.materialdatetimepicker.utils.PersianCalendar;
 
 import ir.behrooz.loan.common.BaseActivity;
 import ir.behrooz.loan.common.DateUtil;

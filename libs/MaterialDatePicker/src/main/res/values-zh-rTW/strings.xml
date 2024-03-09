@@ -29,4 +29,9 @@
     <string name="mdtp_item_is_selected" msgid="2674929164900463786">"已選取 <xliff:g id="ITEM">%1$s</xliff:g>"</string>
     <string name="mdtp_deleted_key" msgid="6908431551612331381">"已刪除 <xliff:g id="KEY">%1$s</xliff:g>"</string>
     <string name="mdtp_date_v1_monthyear">yyyy年M月</string>
+    <string name="mdtp_ok">確定</string>
+    <string name="mdtp_cancel">取消</string>
+    <string name="mdtp_second_picker_description">秒钟圆形滑块</string>
+    <string name="mdtp_select_seconds">选择秒钟</string>
+
 </resources>

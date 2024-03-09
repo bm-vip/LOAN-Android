@@ -29,4 +29,9 @@
     <string name="mdtp_item_is_selected" msgid="2674929164900463786">"Избрано: <xliff:g id="ITEM">%1$s</xliff:g>"</string>
     <string name="mdtp_deleted_key" msgid="6908431551612331381">"Избришано: <xliff:g id="KEY">%1$s</xliff:g>"</string>
     <string name="mdtp_date_v1_monthyear">MMMM yyyy \'г\'.</string>
+    <string name="mdtp_ok">Добро</string>
+    <string name="mdtp_cancel">Откажи</string>
+    <string name="mdtp_second_picker_description">Секундар кружен слайдер</string>
+    <string name="mdtp_select_seconds">Изберете секунди</string>
+
 </resources>
