@@ -1,5 +1,6 @@
 package ir.behrooz.loan;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -188,9 +189,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         new FontChangeCrawler(getAssets(), IRANSANS_LT).replaceFonts(navigationView);
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         if (!preferences.getBoolean("EXIT_AND_BACKUP", true))
             finish();
         else {
