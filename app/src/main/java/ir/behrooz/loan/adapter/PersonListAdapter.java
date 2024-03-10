@@ -15,8 +15,9 @@ import ir.behrooz.loan.PersonActivity;
 import ir.behrooz.loan.R;
 import ir.behrooz.loan.common.Constants;
 import ir.behrooz.loan.common.FontChangeCrawler;
+import ir.behrooz.loan.common.sql.And;
 import ir.behrooz.loan.common.sql.DBUtil;
-import ir.behrooz.loan.common.sql.Oprator;
+import ir.behrooz.loan.common.sql.Operator;
 import ir.behrooz.loan.common.sql.WhereCondition;
 import ir.behrooz.loan.entity.CashtEntity;
 import ir.behrooz.loan.entity.DebitCreditEntityDao;
@@ -66,11 +67,11 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Vi
         holder.phone.setText(LanguageUtils.getPersianNumbers(entity.getPhone()));
         Long wallet = 0L;
         if (cashtEntity.getWithDeposit()) {
-            wallet = DBUtil.sum(context, Value, WalletEntityDao.TABLENAME, new WhereCondition(PersonId, entity.getId().toString(), Oprator.EQUAL, "AND"), new WhereCondition(WalletEntityDao.Properties.Status, "1", Oprator.EQUAL));
-            wallet -= DBUtil.sum(context, Value, WalletEntityDao.TABLENAME, new WhereCondition(PersonId, entity.getId().toString(), Oprator.EQUAL, "AND"), new WhereCondition(WalletEntityDao.Properties.Status, "0", Oprator.EQUAL));
+            wallet = DBUtil.sum(context, Value, WalletEntityDao.TABLENAME, new And(PersonId, entity.getId().toString()), new WhereCondition(WalletEntityDao.Properties.Status, "1"));
+            wallet -= DBUtil.sum(context, Value, WalletEntityDao.TABLENAME, new And(PersonId, entity.getId().toString()), new WhereCondition(WalletEntityDao.Properties.Status, "0"));
         }
         else
-            wallet = DBUtil.sum(context, Value, DebitCreditEntityDao.TABLENAME, new WhereCondition(PersonId, entity.getId().toString(), Oprator.EQUAL,"AND"), new WhereCondition(PayStatus, "1", Oprator.EQUAL));
+            wallet = DBUtil.sum(context, Value, DebitCreditEntityDao.TABLENAME, new And(PersonId, entity.getId().toString()), new WhereCondition(PayStatus, "1"));
         holder.wallet.setText(moneySeparator(context, wallet));
         long delayedCount = debitCreditEntityDao.queryBuilder().where(PersonId.eq(entity.getId()), PayStatus.eq(false), Date.lt(new Date())).count();
         holder.delayed.setText(LanguageUtils.getPersianNumbers(delayedCount + ""));

@@ -15,8 +15,9 @@ import java.util.List;
 import ir.behrooz.loan.R;
 import ir.behrooz.loan.common.DateUtil;
 import ir.behrooz.loan.common.LanguageUtils;
+import ir.behrooz.loan.common.sql.And;
 import ir.behrooz.loan.common.sql.DBUtil;
-import ir.behrooz.loan.common.sql.Oprator;
+import ir.behrooz.loan.common.sql.Operator;
 import ir.behrooz.loan.common.sql.WhereCondition;
 import ir.behrooz.loan.entity.DebitCreditEntityDao;
 import ir.behrooz.loan.entity.LoanEntity;
@@ -87,7 +88,7 @@ public class LoanListPDF extends BasePDF {
 
             PdfPTable tbl3 = new PdfPTable(1);
             tbl3.addCell(createPdfPCellNoBorder(i, context.getString(R.string.remainLoan), font_MD_14));
-            Long remain = DBUtil.sum(context, DebitCreditEntityDao.Properties.Value, DebitCreditEntityDao.TABLENAME, new WhereCondition(LoanId, entity.getId().toString(), Oprator.EQUAL, "AND"), new WhereCondition(PayStatus, "0", Oprator.EQUAL));
+            Long remain = DBUtil.sum(context, DebitCreditEntityDao.Properties.Value, DebitCreditEntityDao.TABLENAME, new And(LoanId, entity.getId().toString()), new WhereCondition(PayStatus, "0"));
             remainSum += remain;
             tbl3.addCell(createPdfPCellNoBorder(i, moneySeparator(context, remain), font_LT_12));
             table.addCell(tbl3);

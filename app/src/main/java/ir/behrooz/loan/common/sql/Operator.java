@@ -1,6 +1,6 @@
 package ir.behrooz.loan.common.sql;
 
-public enum Oprator {
+public enum Operator {
     EQUAL("="),
     IS("IS"),
     IS_NOT("IS NOT"),
@@ -10,7 +10,7 @@ public enum Oprator {
     LESS_THAN("<=")
     ;
 
-    Oprator(String value) {
+    Operator(String value) {
         this.value = value;
     }
 

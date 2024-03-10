@@ -5,21 +5,26 @@ import org.greenrobot.greendao.Property;
 public class WhereCondition {
     private Property property;
     private String value;
-    private Oprator oprator;
-    private String andOr;
+    private Operator oprator;
+    private AndOr andOr;
 
-    public WhereCondition(Property property, String value, Oprator oprator) {
+    public WhereCondition(Property property, String value, Operator operator, AndOr andOr) {
         this.property = property;
         this.value = value;
-        this.oprator = oprator;
-        this.andOr = "";
-    }
-
-    public WhereCondition(Property property, String value, Oprator oprator, String andOr) {
-        this.property = property;
-        this.value = value;
-        this.oprator = oprator;
+        this.oprator = operator;
         this.andOr = andOr;
+    }
+    public WhereCondition(Property property, String value, Operator operator) {
+        this.property = property;
+        this.value = value;
+        this.oprator = operator;
+        this.andOr = null;
+    }
+    public WhereCondition(Property property, String value) {
+        this.property = property;
+        this.value = value;
+        this.oprator = Operator.EQUAL;
+        this.andOr = null;
     }
 
     public Property getProperty() {
@@ -38,19 +43,20 @@ public class WhereCondition {
         this.value = value;
     }
 
-    public Oprator getOprator() {
+    public Operator getOprator() {
         return oprator;
     }
 
-    public void setOprator(Oprator oprator) {
-        this.oprator = oprator;
+    public void setOprator(Operator operator) {
+        this.oprator = operator;
     }
 
-    public String getAndOr() {
+    public AndOr getAndOr() {
         return andOr;
     }
 
-    public void setAndOr(String andOr) {
+    public void setAndOr(AndOr andOr) {
         this.andOr = andOr;
     }
 }
+

@@ -23,8 +23,9 @@ import ir.behrooz.loan.common.BackupAndRestore;
 import ir.behrooz.loan.common.BaseActivity;
 import ir.behrooz.loan.common.FontChangeCrawler;
 import ir.behrooz.loan.common.LanguageUtils;
+import ir.behrooz.loan.common.sql.And;
 import ir.behrooz.loan.common.sql.DBUtil;
-import ir.behrooz.loan.common.sql.Oprator;
+import ir.behrooz.loan.common.sql.Operator;
 import ir.behrooz.loan.common.sql.WhereCondition;
 import ir.behrooz.loan.entity.CashtEntity;
 import ir.behrooz.loan.entity.CashtEntityDao;
@@ -102,17 +103,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        try {
-            cashtEntity = new CashtEntity(this);
-        } catch (Exception ex) {
-            DBUtil.getWritableInstance(this).getDatabase().execSQL("ALTER TABLE Cash ADD COLUMN IF NOT EXIST CURRENCY_TYPE TEXT NOT NULL DEFAULT '" + getString(R.string.toman) + "'");
-            DBUtil.getWritableInstance(this).getDatabase().execSQL("ALTER TABLE Cash ADD COLUMN IF NOT EXIST WITH_DEPOSIT INTEGER NOT NULL DEFAULT 1");
-            DBUtil.getWritableInstance(this).getDatabase().execSQL("ALTER TABLE Cash ADD COLUMN IF NOT EXIST CHECK_CASH_REMAIN INTEGER NOT NULL DEFAULT 1");
-            DBUtil.getWritableInstance(this).getDatabase().execSQL("ALTER TABLE Cash ADD COLUMN IF NOT EXIST AFFECT_NEXT INTEGER NOT NULL DEFAULT 1");
-            DBUtil.getWritableInstance(this).getDatabase().execSQL("ALTER TABLE Cash ADD COLUMN IF NOT EXIST NOTIFY_DAY_OF_LOAN INTEGER NOT NULL DEFAULT 1");
-            DBUtil.getWritableInstance(this).getDatabase().execSQL("ALTER TABLE Cash ADD COLUMN IF NOT EXIST NOTIFY_DAY_OF_LOAN INTEGER NOT NULL DEFAULT 1");
-            cashtEntity = new CashtEntity(this);
-        }
+        cashtEntity = new CashtEntity(this);
         if (cashtEntityDao.count() == 0) {
             cashtEntityDao.save(cashtEntity);
         }
@@ -130,15 +121,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         Long walletSum = 0L;
         try {
             cashtEntity = new CashtEntity(this);
-            walletSum = DBUtil.sum(this, WalletEntityDao.Properties.Value, WalletEntityDao.TABLENAME, new WhereCondition(WalletEntityDao.Properties.Status, "1", Oprator.EQUAL, "AND"), new WhereCondition(WalletEntityDao.Properties.CashId, cashtEntity.getId().toString(), Oprator.EQUAL));
-            walletSum -= DBUtil.sum(this, WalletEntityDao.Properties.Value, WalletEntityDao.TABLENAME, new WhereCondition(WalletEntityDao.Properties.Status, "0", Oprator.EQUAL, "AND"), new WhereCondition(WalletEntityDao.Properties.CashId, cashtEntity.getId().toString(), Oprator.EQUAL));
+            walletSum = DBUtil.sum(this, WalletEntityDao.Properties.Value, WalletEntityDao.TABLENAME, new And(WalletEntityDao.Properties.Status, "1"), new WhereCondition(WalletEntityDao.Properties.CashId, cashtEntity.getId().toString()));
+            walletSum -= DBUtil.sum(this, WalletEntityDao.Properties.Value, WalletEntityDao.TABLENAME, new And(WalletEntityDao.Properties.Status, "0"), new WhereCondition(WalletEntityDao.Properties.CashId, cashtEntity.getId().toString()));
         } catch (Exception ex) {
             walletSum = DBUtil.sum(this, WalletEntityDao.Properties.Value, WalletEntityDao.TABLENAME);
-            DBUtil.getWritableInstance(this).getDatabase().execSQL("ALTER TABLE Wallet ADD COLUMN CASH_ID INTEGER NOT NULL DEFAULT 1");
-            DBUtil.getWritableInstance(this).getDatabase().execSQL("ALTER TABLE Loan ADD COLUMN CASH_ID INTEGER NOT NULL DEFAULT 1");
-            DBUtil.getWritableInstance(this).getDatabase().execSQL("ALTER TABLE Person ADD COLUMN CASH_ID INTEGER NOT NULL DEFAULT 1");
-            DBUtil.getWritableInstance(this).getDatabase().execSQL("ALTER TABLE DebitCredit ADD COLUMN CASH_ID INTEGER NOT NULL DEFAULT 1");
-            DBUtil.getWritableInstance(this).getDatabase().execSQL("ALTER TABLE Wallet ADD COLUMN STATUS INTEGER NOT NULL DEFAULT 1");
         }
         if (cashtEntity.getWithDeposit()) {
             walletBtn.setText(String.format("%s\n%s", getString(R.string.wallets), moneySeparator(context, walletSum)));
@@ -162,17 +148,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         unpaidBtn.setText(String.format("%d\nقسط %s\n%s", getDebitCreditCount(cashtEntity.getId(), false), getString(R.string.unpaid), getDebitCreditSum(cashtEntity.getId().toString(), "0")));
 
         long cashRemain = 0L;
-        long paidLoan = 0L;
-        try {
-            paidLoan = DBUtil.sum(context, LoanEntityDao.Properties.Value, LoanEntityDao.TABLENAME, new WhereCondition(LoanEntityDao.Properties.WinDate, "NULL", Oprator.IS_NOT, "AND"), new WhereCondition(LoanEntityDao.Properties.CashId, cashtEntity.getId().toString(), Oprator.EQUAL));
-        } catch (Exception e) {
-            DBUtil.getWritableInstance(this).getDatabase().execSQL("ALTER TABLE Loan ADD COLUMN WIN_DATE INTEGER");
-        }
+        long paidLoan = DBUtil.sum(context, LoanEntityDao.Properties.Value, LoanEntityDao.TABLENAME, new And(LoanEntityDao.Properties.WinDate, "NULL", Operator.IS_NOT), new WhereCondition(LoanEntityDao.Properties.CashId, cashtEntity.getId().toString()));
+
         if (cashtEntity.getWithDeposit()) {
-            long unpaidSum = DBUtil.sum(context, DebitCreditEntityDao.Properties.Value, DebitCreditEntityDao.TABLENAME, new WhereCondition(DebitCreditEntityDao.Properties.PayStatus, "0", Oprator.EQUAL, "AND"), new WhereCondition(DebitCreditEntityDao.Properties.CashId, cashtEntity.getId().toString(), Oprator.EQUAL));
+            long unpaidSum = DBUtil.sum(context, DebitCreditEntityDao.Properties.Value, DebitCreditEntityDao.TABLENAME, new And(DebitCreditEntityDao.Properties.PayStatus, "0"), new WhereCondition(DebitCreditEntityDao.Properties.CashId, cashtEntity.getId().toString()));
             cashRemain = walletSum - unpaidSum;
         } else {
-            long paidInstallment = DBUtil.sum(context, DebitCreditEntityDao.Properties.Value, DebitCreditEntityDao.TABLENAME, new WhereCondition(DebitCreditEntityDao.Properties.PayStatus, "1", Oprator.EQUAL, "AND"), new WhereCondition(DebitCreditEntityDao.Properties.CashId, cashtEntity.getId().toString(), Oprator.EQUAL));
+            long paidInstallment = DBUtil.sum(context, DebitCreditEntityDao.Properties.Value, DebitCreditEntityDao.TABLENAME, new And(DebitCreditEntityDao.Properties.PayStatus, "1"), new WhereCondition(DebitCreditEntityDao.Properties.CashId, cashtEntity.getId().toString()));
             cashRemain = paidInstallment - paidLoan;
         }
 
@@ -222,7 +204,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private String getDebitCreditSum(String cashId, String payStatus) {
-        return moneySeparator(context, DBUtil.sum(context, DebitCreditEntityDao.Properties.Value, DebitCreditEntityDao.TABLENAME, new WhereCondition(DebitCreditEntityDao.Properties.PayStatus, payStatus, Oprator.EQUAL, "AND"), new WhereCondition(DebitCreditEntityDao.Properties.CashId, cashId, Oprator.EQUAL)));
+        return moneySeparator(context, DBUtil.sum(context, DebitCreditEntityDao.Properties.Value, DebitCreditEntityDao.TABLENAME, new And(DebitCreditEntityDao.Properties.PayStatus, payStatus), new WhereCondition(DebitCreditEntityDao.Properties.CashId, cashId)));
     }
 
     private long getDebitCreditCount(Long cashId, boolean payStatus) {

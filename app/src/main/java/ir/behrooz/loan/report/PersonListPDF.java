@@ -15,7 +15,7 @@ import java.util.List;
 import ir.behrooz.loan.R;
 import ir.behrooz.loan.common.LanguageUtils;
 import ir.behrooz.loan.common.sql.DBUtil;
-import ir.behrooz.loan.common.sql.Oprator;
+import ir.behrooz.loan.common.sql.Operator;
 import ir.behrooz.loan.common.sql.WhereCondition;
 import ir.behrooz.loan.entity.DebitCreditEntityDao;
 import ir.behrooz.loan.entity.PersonEntity;
@@ -53,11 +53,11 @@ public class PersonListPDF extends BasePDF {
             table.addCell(createPdfPCell(i, LanguageUtils.getPersianNumbers(delayedCount + "")));
             Long wallet = 0L;
             if (cashtEntity.getWithDeposit()) {
-                wallet = DBUtil.sum(context, Value, WalletEntityDao.TABLENAME, new WhereCondition(PersonId, entity.getId().toString(), Oprator.EQUAL, "AND"), new WhereCondition(WalletEntityDao.Properties.Status, "1", Oprator.EQUAL));
-                wallet -= DBUtil.sum(context, Value, WalletEntityDao.TABLENAME, new WhereCondition(PersonId, entity.getId().toString(), Oprator.EQUAL, "AND"), new WhereCondition(WalletEntityDao.Properties.Status, "0", Oprator.EQUAL));
+                wallet = DBUtil.sum(context, Value, WalletEntityDao.TABLENAME, new WhereCondition(PersonId, entity.getId().toString()), new WhereCondition(WalletEntityDao.Properties.Status, "1"));
+                wallet -= DBUtil.sum(context, Value, WalletEntityDao.TABLENAME, new WhereCondition(PersonId, entity.getId().toString()), new WhereCondition(WalletEntityDao.Properties.Status, "0"));
             }
             else
-                wallet = DBUtil.sum(context, Value, DebitCreditEntityDao.TABLENAME, new WhereCondition(PersonId, entity.getId().toString(), Oprator.EQUAL, "AND"), new WhereCondition(PayStatus, "1", Oprator.EQUAL));
+                wallet = DBUtil.sum(context, Value, DebitCreditEntityDao.TABLENAME, new WhereCondition(PersonId, entity.getId().toString()), new WhereCondition(PayStatus, "1"));
             sum += wallet;
             table.addCell(createPdfPCell(i, moneySeparator(context, wallet)));
             table.addCell(createPdfPCell(i, LanguageUtils.getPersianNumbers(entity.getNationalCode())));
