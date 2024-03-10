@@ -1,5 +1,13 @@
 package ir.behrooz.loan;
 
+import static ir.behrooz.loan.common.Constants.IRANSANS_LT;
+import static ir.behrooz.loan.common.DateUtil.addZero;
+import static ir.behrooz.loan.common.DateUtil.toGregorian;
+import static ir.behrooz.loan.common.StringUtil.fixWeakCharacters;
+import static ir.behrooz.loan.common.StringUtil.moneySeparator;
+import static ir.behrooz.loan.common.StringUtil.onChangedEditText;
+import static ir.behrooz.loan.common.StringUtil.removeSeparator;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
@@ -20,6 +28,9 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +39,6 @@ import ir.behrooz.loan.common.CompleteListener;
 import ir.behrooz.loan.common.DateUtil;
 import ir.behrooz.loan.common.FontChangeCrawler;
 import ir.behrooz.loan.common.LanguageUtils;
-import ir.behrooz.loan.common.sql.DBUtil;
 import ir.behrooz.loan.entity.CashtEntity;
 import ir.behrooz.loan.entity.PersonEntity;
 import ir.behrooz.loan.entity.PersonEntityDao;
@@ -36,17 +46,6 @@ import ir.behrooz.loan.entity.WalletEntity;
 import ir.behrooz.loan.entity.WalletEntityDao;
 import ir.behrooz.loan.fragment.PersonSearchFragment;
 import ir.behrooz.loan.model.PersonModel;
-
-import static ir.behrooz.loan.common.Constants.IRANSANS_LT;
-import static ir.behrooz.loan.common.DateUtil.addZero;
-import static ir.behrooz.loan.common.DateUtil.toGregorian;
-import static ir.behrooz.loan.common.StringUtil.fixWeakCharacters;
-import static ir.behrooz.loan.common.StringUtil.moneySeparator;
-import static ir.behrooz.loan.common.StringUtil.onChangedEditText;
-import static ir.behrooz.loan.common.StringUtil.removeSeparator;
-
-import androidx.fragment.app.FragmentManager;
-
 import ir.behrooz.materialdatetimepicker.date.DatePickerDialog;
 import ir.behrooz.materialdatetimepicker.utils.PersianCalendar;
 
@@ -62,6 +61,11 @@ public class WalletActivity extends BaseActivity {
     CashtEntity cashtEntity;
 
     @Override
+    protected String getTableName() {
+        return WalletEntityDao.TABLENAME;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
@@ -71,8 +75,8 @@ public class WalletActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(Color.parseColor("#81C784"));
         }
-        walletEntityDao = DBUtil.getReadableInstance(this).getWalletEntityDao();
-        personEntityDao = DBUtil.getReadableInstance(this).getPersonEntityDao();
+        walletEntityDao = getDaoSession().getWalletEntityDao();
+        personEntityDao = getDaoSession().getPersonEntityDao();
         statusSwitch = findViewById(R.id.statusSwitch);
         value = findViewById(R.id.value);
         personFullName = findViewById(R.id.fullNameValue);

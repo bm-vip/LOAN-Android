@@ -221,7 +221,7 @@ public class LoanSearchFragment extends DialogFragment {
                 if (!TextUtils.isEmpty(delayed.getText()))
                     builder.append(" AND ".concat(delayed.getText().toString()).concat("=(select count(*) from ").concat(DebitCreditEntityDao.TABLENAME).concat(" DC where DC.LOAN_ID=L._id AND PAY_STATUS=0 AND DATE <").concat(new Date().getTime() + ")"));
                 if (!TextUtils.isEmpty(remain.getText()))
-                    builder.append(" AND ".concat(removeSeparator(getContext(), remain.getText().toString()) + "=").concat("(select sum(DC.VALUE) from ").concat(DebitCreditEntityDao.TABLENAME).concat(" DC where DC.LOAN_ID=L._id AND PAY_STATUS = 0)"));
+                    builder.append(" AND ".concat(removeSeparator(getContext(), remain.getText().toString()) + "=").concat("(select dbSum(DC.VALUE) from ").concat(DebitCreditEntityDao.TABLENAME).concat(" DC where DC.LOAN_ID=L._id AND PAY_STATUS = 0)"));
 
                 if (getCompleteListener() != null)
                     getCompleteListener().onComplete(builder.toString());

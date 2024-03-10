@@ -58,6 +58,11 @@ public class WalletListActivity extends BaseActivity {
     private CashtEntity cashtEntity;
 
     @Override
+    protected String getTableName() {
+        return WalletEntityDao.TABLENAME;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet_list);

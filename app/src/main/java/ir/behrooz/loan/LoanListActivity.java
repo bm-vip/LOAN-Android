@@ -1,5 +1,7 @@
 package ir.behrooz.loan;
 
+import static ir.behrooz.loan.common.sql.DBUtil.orderBy;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -16,6 +18,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -28,7 +36,6 @@ import ir.behrooz.loan.adapter.pdf.PrintJobMonitorService;
 import ir.behrooz.loan.common.BaseActivity;
 import ir.behrooz.loan.common.CompleteListener;
 import ir.behrooz.loan.common.DateUtil;
-import ir.behrooz.loan.common.sql.DBUtil;
 import ir.behrooz.loan.entity.CashtEntity;
 import ir.behrooz.loan.entity.LoanEntity;
 import ir.behrooz.loan.entity.LoanEntityDao;
@@ -38,14 +45,6 @@ import ir.behrooz.loan.fragment.LoanSearchFragment;
 import ir.behrooz.loan.fragment.LoanSortFragment;
 import ir.behrooz.loan.model.SortModel;
 import ir.behrooz.loan.report.LoanListPDF;
-
-import static ir.behrooz.loan.common.sql.DBUtil.orderBy;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class LoanListActivity extends BaseActivity {
     public RecyclerView recyclerView;
@@ -59,6 +58,11 @@ public class LoanListActivity extends BaseActivity {
     private PrintManager mgr = null;
     private List<SortModel> sortModels;
     CashtEntity cashtEntity;
+
+    @Override
+    protected String getTableName() {
+        return LoanEntityDao.TABLENAME;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,11 +82,11 @@ public class LoanListActivity extends BaseActivity {
         }
         if (getIntent().hasExtra("personId")) {
             personId = getIntent().getExtras().getLong("personId");
-            PersonEntity personEntity = DBUtil.getReadableInstance(this).getPersonEntityDao().load(personId);
+            PersonEntity personEntity = getDaoSession().getPersonEntityDao().load(personId);
             getSupportActionBar().setTitle(String.format("%s %s %s", getString(R.string.title_activity_loan_list), personEntity.getName(), personEntity.getFamily()));
         }
 
-        loanEntityDao = DBUtil.getReadableInstance(this).getLoanEntityDao();
+        loanEntityDao = getDaoSession().getLoanEntityDao();
         progressBar = findViewById(R.id.loan_progress);
         recyclerView = (RecyclerView) findViewById(R.id.loan_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -206,7 +210,7 @@ public class LoanListActivity extends BaseActivity {
         sql.append(" order by ");
         sql.append(orderBy(sortModels));
         sql.append(String.format(Locale.US, " LIMIT %d OFFSET %d;", limit, offset));
-        Cursor cursor = DBUtil.getReadableInstance(context).getDatabase().rawQuery(sql.toString(), new String[]{});
+        Cursor cursor = getDaoSession().getDatabase().rawQuery(sql.toString(), new String[]{});
         List<LoanEntity> loanEntities = new ArrayList<>();
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {

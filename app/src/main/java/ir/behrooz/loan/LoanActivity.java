@@ -59,7 +59,6 @@ import ir.behrooz.loan.common.BaseActivity;
 import ir.behrooz.loan.common.CompleteListener;
 import ir.behrooz.loan.common.FontChangeCrawler;
 import ir.behrooz.loan.common.LanguageUtils;
-import ir.behrooz.loan.common.sql.DBUtil;
 import ir.behrooz.loan.common.sql.Operator;
 import ir.behrooz.loan.common.sql.WhereCondition;
 import ir.behrooz.loan.entity.CashtEntity;
@@ -91,6 +90,11 @@ public class LoanActivity extends BaseActivity {
     CashtEntity cashtEntity;
 
     @Override
+    protected String getTableName() {
+        return LoanEntityDao.TABLENAME;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loan);
@@ -101,9 +105,9 @@ public class LoanActivity extends BaseActivity {
             getWindow().setStatusBarColor(Color.parseColor("#283593"));
         }
 
-        loanEntityDao = DBUtil.getReadableInstance(this).getLoanEntityDao();
-        personEntityDao = DBUtil.getReadableInstance(this).getPersonEntityDao();
-        debitCreditEntityDao = DBUtil.getWritableInstance(this).getDebitCreditEntityDao();
+        loanEntityDao = getDaoSession().getLoanEntityDao();
+        personEntityDao = getDaoSession().getPersonEntityDao();
+        debitCreditEntityDao = getDaoSession().getDebitCreditEntityDao();
         fullNameBtn = findViewById(R.id.fullNameBtn);
         progressBar = findViewById(R.id.loan_progress);
         fullName = findViewById(R.id.fullNameValue);
@@ -395,9 +399,9 @@ public class LoanActivity extends BaseActivity {
             focusView.requestFocus();
         } else {
             progressBar.setVisibility(View.VISIBLE);
-            long unpaidSum = DBUtil.sum(this, Value, DebitCreditEntityDao.TABLENAME, new And(PayStatus, "0", Operator.EQUAL), new WhereCondition(CashId, cashtEntity.getId().toString()));
-            long walletSum = DBUtil.sum(this, WalletEntityDao.Properties.Value, WalletEntityDao.TABLENAME, new And(WalletEntityDao.Properties.Status, "1"), new WhereCondition(CashId, cashtEntity.getId().toString()));
-            walletSum -= DBUtil.sum(this, WalletEntityDao.Properties.Value, WalletEntityDao.TABLENAME, new And(WalletEntityDao.Properties.Status, "0"), new WhereCondition(WalletEntityDao.Properties.CashId, cashtEntity.getId().toString()));
+            long unpaidSum = dbSum(Value, DebitCreditEntityDao.TABLENAME, new And(PayStatus, "0", Operator.EQUAL), new WhereCondition(CashId, cashtEntity.getId().toString()));
+            long walletSum = dbSum(WalletEntityDao.Properties.Value, WalletEntityDao.TABLENAME, new And(WalletEntityDao.Properties.Status, "1"), new WhereCondition(CashId, cashtEntity.getId().toString()));
+            walletSum -= dbSum(WalletEntityDao.Properties.Value, WalletEntityDao.TABLENAME, new And(WalletEntityDao.Properties.Status, "0"), new WhereCondition(WalletEntityDao.Properties.CashId, cashtEntity.getId().toString()));
             long cashRemain = walletSum - unpaidSum;
 
             for (PersonModel personModel : personModels) {

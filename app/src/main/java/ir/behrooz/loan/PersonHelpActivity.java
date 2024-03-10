@@ -12,8 +12,14 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 
 import ir.behrooz.loan.common.BaseActivity;
+import ir.behrooz.loan.entity.PersonEntityDao;
 
 public class PersonHelpActivity extends BaseActivity {
+
+    @Override
+    protected String getTableName() {
+        return PersonEntityDao.TABLENAME;
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override

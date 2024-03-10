@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -41,6 +42,7 @@ import static ir.behrooz.loan.common.Constants.IRANSANS_MD;
 import static ir.behrooz.loan.common.StringUtil.moneySeparator;
 import static ir.behrooz.loan.common.Utils.getVersion;
 import static ir.behrooz.loan.common.Utils.landScape;
+import static ir.behrooz.loan.entity.WalletEntityDao.Properties.*;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
@@ -64,6 +66,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private SharedPreferences preferences;
 
     @Override
+    protected String getTableName() {
+        return WalletEntityDao.TABLENAME;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -76,8 +83,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             getWindow().setStatusBarColor(Color.parseColor("#3F51B5"));
         }
 
-        debitCreditEntityDao = DBUtil.getReadableInstance(this).getDebitCreditEntityDao();
-        cashtEntityDao = DBUtil.getReadableInstance(this).getCashtEntityDao();
+        debitCreditEntityDao = getDaoSession().getDebitCreditEntityDao();
+        cashtEntityDao = getDaoSession().getCashtEntityDao();
         walletBtn = (Button) findViewById(R.id.walletBtn);
         loanBtn = (Button) findViewById(R.id.loanBtn);
         personBtn = (Button) findViewById(R.id.personBtn);
@@ -118,14 +125,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void onResume() {
         super.onResume();
-        Long walletSum = 0L;
-        try {
-            cashtEntity = new CashtEntity(this);
-            walletSum = DBUtil.sum(this, WalletEntityDao.Properties.Value, WalletEntityDao.TABLENAME, new And(WalletEntityDao.Properties.Status, "1"), new WhereCondition(WalletEntityDao.Properties.CashId, cashtEntity.getId().toString()));
-            walletSum -= DBUtil.sum(this, WalletEntityDao.Properties.Value, WalletEntityDao.TABLENAME, new And(WalletEntityDao.Properties.Status, "0"), new WhereCondition(WalletEntityDao.Properties.CashId, cashtEntity.getId().toString()));
-        } catch (Exception ex) {
-            walletSum = DBUtil.sum(this, WalletEntityDao.Properties.Value, WalletEntityDao.TABLENAME);
-        }
+        cashtEntity = new CashtEntity(this);
+        Long walletSum = dbSum(new StringBuilder(String.format("SELECT SUM(CASE WHEN %s = 1 THEN %s ELSE -%s END) FROM %s", Status.columnName, Value.columnName, Value.columnName, WalletEntityDao.TABLENAME)),
+                new WhereCondition(CashId, cashtEntity.getId().toString()));
         if (cashtEntity.getWithDeposit()) {
             walletBtn.setText(String.format("%s\n%s", getString(R.string.wallets), moneySeparator(context, walletSum)));
             walletBtn.setVisibility(View.VISIBLE);

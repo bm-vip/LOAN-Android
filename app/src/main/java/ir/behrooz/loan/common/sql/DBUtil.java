@@ -27,7 +27,7 @@ public class DBUtil {
         return writableInstance;
     }
     public static DaoSession getReadableInstance (Context context) {
-        if(readableInstance == null){
+        if(readableInstance == null) {
             readableInstance = new DaoMaster(new DBOpenHelper(context, Constants.DB_NAME).getReadableDb()).newSession();
         }
         return readableInstance;

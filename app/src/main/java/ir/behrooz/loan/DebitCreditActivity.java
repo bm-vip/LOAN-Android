@@ -57,6 +57,11 @@ public class DebitCreditActivity extends BaseActivity {
     DebitCreditEntityDao debitCreditEntityDao;
 
     @Override
+    protected String getTableName() {
+        return DebitCreditEntityDao.TABLENAME;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debit_credit);
@@ -72,9 +77,9 @@ public class DebitCreditActivity extends BaseActivity {
             getWindow().setStatusBarColor(Color.parseColor(color));
         }
 
-        loanEntityDao = DBUtil.getReadableInstance(this).getLoanEntityDao();
-        personEntityDao = DBUtil.getReadableInstance(this).getPersonEntityDao();
-        debitCreditEntityDao = DBUtil.getWritableInstance(this).getDebitCreditEntityDao();
+        loanEntityDao = getDaoSession().getLoanEntityDao();
+        personEntityDao = getDaoSession().getPersonEntityDao();
+        debitCreditEntityDao = getDaoSession().getDebitCreditEntityDao();
 
 //        AppBarLayout appBarLayout = findViewById(R.id.app_bar_debit_credit);
 //        appBarLayout.setBackgroundColor(Color.parseColor(color));

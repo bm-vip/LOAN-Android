@@ -29,9 +29,14 @@ import ir.behrooz.loan.entity.CashtEntityDao;
 
 public class CashListActivity extends BaseActivity {
     private RecyclerView recyclerView;
-    private CashtEntityDao cashtEntityDao = DBUtil.getReadableInstance(this).getCashtEntityDao();
+    private CashtEntityDao cashtEntityDao = getDaoSession().getCashtEntityDao();
     private CashListAdapter adapter;
     private String search = "";
+
+    @Override
+    protected String getTableName() {
+        return CashtEntityDao.TABLENAME;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +65,7 @@ public class CashListActivity extends BaseActivity {
 
     private List<CashtEntity> search() {
         String sql = "SELECT C.* FROM Cash C WHERE C.NAME LIKE '%" + search + "%' ORDER BY C.NAME";
-        Cursor cursor = DBUtil.getReadableInstance(context).getDatabase().rawQuery(sql, new String[]{});
+        Cursor cursor = getDaoSession().getDatabase().rawQuery(sql, new String[]{});
         List<CashtEntity> cashtEntities = new ArrayList<>();
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {

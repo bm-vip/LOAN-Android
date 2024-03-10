@@ -42,10 +42,17 @@ import ir.behrooz.loan.common.Constants;
 import ir.behrooz.loan.common.RealPathUtil;
 import ir.behrooz.loan.common.sql.DBUtil;
 import ir.behrooz.loan.entity.CashtEntity;
+import ir.behrooz.loan.entity.CashtEntityDao;
 import saman.zamani.persiandate.BuildConfig;
 
 public class SettingsActivity extends BaseActivity {
     protected static final int REQUEST_CODE_PERMISSION = 2296;
+
+    @Override
+    protected String getTableName() {
+        return CashtEntityDao.TABLENAME;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

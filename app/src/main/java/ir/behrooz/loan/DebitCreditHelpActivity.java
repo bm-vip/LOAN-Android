@@ -15,9 +15,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.appbar.AppBarLayout;
 
 import ir.behrooz.loan.common.BaseActivity;
+import ir.behrooz.loan.entity.DebitCreditEntityDao;
 
 public class DebitCreditHelpActivity extends BaseActivity {
     public String color = "#00C853";
+
+    @Override
+    protected String getTableName() {
+        return DebitCreditEntityDao.TABLENAME;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {

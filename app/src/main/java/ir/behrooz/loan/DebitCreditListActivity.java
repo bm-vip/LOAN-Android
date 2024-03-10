@@ -1,5 +1,7 @@
 package ir.behrooz.loan;
 
+import static ir.behrooz.loan.common.sql.DBUtil.orderBy;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -17,6 +19,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -29,7 +37,6 @@ import ir.behrooz.loan.adapter.pdf.PrintJobMonitorService;
 import ir.behrooz.loan.common.BaseActivity;
 import ir.behrooz.loan.common.CompleteListener;
 import ir.behrooz.loan.common.DateUtil;
-import ir.behrooz.loan.common.sql.DBUtil;
 import ir.behrooz.loan.entity.CashtEntity;
 import ir.behrooz.loan.entity.DebitCreditEntity;
 import ir.behrooz.loan.entity.DebitCreditEntityDao;
@@ -41,14 +48,6 @@ import ir.behrooz.loan.fragment.DebitCreditSearchFragment;
 import ir.behrooz.loan.fragment.DebitCreditSortFragment;
 import ir.behrooz.loan.model.SortModel;
 import ir.behrooz.loan.report.DebitCreditListPDF;
-
-import static ir.behrooz.loan.common.sql.DBUtil.orderBy;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class DebitCreditListActivity extends BaseActivity {
     public RecyclerView recyclerView;
@@ -67,13 +66,18 @@ public class DebitCreditListActivity extends BaseActivity {
     CashtEntity cashtEntity;
 
     @Override
+    protected String getTableName() {
+        return DebitCreditEntityDao.TABLENAME;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debit_credit_list);
 
-        debitCreditEntityDao = DBUtil.getReadableInstance(this).getDebitCreditEntityDao();
-        loanEntityDao = DBUtil.getReadableInstance(this).getLoanEntityDao();
-        personEntityDao = DBUtil.getReadableInstance(this).getPersonEntityDao();
+        debitCreditEntityDao = getDaoSession().getDebitCreditEntityDao();
+        loanEntityDao = getDaoSession().getLoanEntityDao();
+        personEntityDao = getDaoSession().getPersonEntityDao();
 
         cashtEntity = new CashtEntity(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -206,7 +210,7 @@ public class DebitCreditListActivity extends BaseActivity {
         sql.append(" order by ");
         sql.append(orderBy(sortModels));
         sql.append(String.format(Locale.US, " LIMIT %d OFFSET %d;", limit, offset));
-        Cursor cursor = DBUtil.getReadableInstance(context).getDatabase().rawQuery(sql.toString(), new String[]{});
+        Cursor cursor = getDaoSession().getDatabase().rawQuery(sql.toString(), new String[]{});
         List<DebitCreditEntity> debitCreditEntities = new ArrayList<>();
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {

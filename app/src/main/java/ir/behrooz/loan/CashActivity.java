@@ -43,6 +43,11 @@ public class CashActivity extends BaseActivity {
     private AlarmReceiver alarmReceiver;
 
     @Override
+    protected String getTableName() {
+        return CashtEntityDao.TABLENAME;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cash);
@@ -52,11 +57,11 @@ public class CashActivity extends BaseActivity {
             getWindow().setStatusBarColor(Color.parseColor("#3F51B5"));
         }
 
-        cashtEntityDao = DBUtil.getWritableInstance(this).getCashtEntityDao();
-        personEntityDao = DBUtil.getWritableInstance(this).getPersonEntityDao();
-        loanEntityDao = DBUtil.getWritableInstance(this).getLoanEntityDao();
-        walletEntityDao = DBUtil.getWritableInstance(this).getWalletEntityDao();
-        debitCreditEntityDao = DBUtil.getWritableInstance(this).getDebitCreditEntityDao();
+        cashtEntityDao = getDaoSession().getCashtEntityDao();
+        personEntityDao = getDaoSession().getPersonEntityDao();
+        loanEntityDao = getDaoSession().getLoanEntityDao();
+        walletEntityDao = getDaoSession().getWalletEntityDao();
+        debitCreditEntityDao = getDaoSession().getDebitCreditEntityDao();
         name = findViewById(R.id.name);
         currencyType = findViewById(R.id.currencyType);
         withDeposit = findViewById(R.id.withDeposit);

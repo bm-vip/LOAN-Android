@@ -1,5 +1,7 @@
 package ir.behrooz.loan;
 
+import static ir.behrooz.loan.common.sql.DBUtil.orderBy;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -15,6 +17,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,7 +35,6 @@ import ir.behrooz.loan.common.BaseActivity;
 import ir.behrooz.loan.common.CompleteListener;
 import ir.behrooz.loan.common.Constants;
 import ir.behrooz.loan.common.DateUtil;
-import ir.behrooz.loan.common.sql.DBUtil;
 import ir.behrooz.loan.entity.CashtEntity;
 import ir.behrooz.loan.entity.PersonEntity;
 import ir.behrooz.loan.entity.PersonEntityDao;
@@ -35,24 +43,20 @@ import ir.behrooz.loan.fragment.PersonSortFragment;
 import ir.behrooz.loan.model.SortModel;
 import ir.behrooz.loan.report.PersonListPDF;
 
-import static ir.behrooz.loan.common.sql.DBUtil.orderBy;
-
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 public class PersonListActivity extends BaseActivity {
     private RecyclerView recyclerView;
-    private PersonEntityDao personEntityDao = DBUtil.getReadableInstance(this).getPersonEntityDao();
+    private PersonEntityDao personEntityDao = getDaoSession().getPersonEntityDao();
     PersonListAdapter adapter;
     private PrintManager pmgr = null;
     private List<SortModel> sortModels;
     private String search = "";
     CashtEntity cashtEntity;
+
+    @Override
+    protected String getTableName() {
+        return PersonEntityDao.TABLENAME;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,7 +140,7 @@ public class PersonListActivity extends BaseActivity {
         sql.append("%' OR P.FAMILY LIKE '%".concat(search));
         sql.append("%') order by ");
         sql.append(orderBy(sortModels));
-        Cursor cursor = DBUtil.getReadableInstance(context).getDatabase().rawQuery(sql.toString(), new String[]{});
+        Cursor cursor = getDaoSession().getDatabase().rawQuery(sql.toString(), new String[]{});
         List<PersonEntity> personEntities = new ArrayList<>();
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {

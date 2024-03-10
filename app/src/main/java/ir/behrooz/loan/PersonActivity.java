@@ -1,5 +1,9 @@
 package ir.behrooz.loan;
 
+import static ir.behrooz.loan.common.Constants.IRANSANS_LT;
+import static ir.behrooz.loan.common.StringUtil.fixWeakCharacters;
+import static ir.behrooz.loan.common.StringUtil.isMobileValid;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -24,23 +28,18 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import ir.behrooz.loan.common.BaseActivity;
 import ir.behrooz.loan.common.FontChangeCrawler;
 import ir.behrooz.loan.common.Utils;
-import ir.behrooz.loan.common.sql.DBUtil;
 import ir.behrooz.loan.entity.CashtEntity;
 import ir.behrooz.loan.entity.DebitCreditEntityDao;
 import ir.behrooz.loan.entity.LoanEntityDao;
 import ir.behrooz.loan.entity.PersonEntity;
 import ir.behrooz.loan.entity.PersonEntityDao;
 import ir.behrooz.loan.entity.WalletEntityDao;
-
-import static ir.behrooz.loan.common.Constants.IRANSANS_LT;
-import static ir.behrooz.loan.common.StringUtil.fixWeakCharacters;
-import static ir.behrooz.loan.common.StringUtil.isMobileValid;
-
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 public class PersonActivity extends BaseActivity {
     private static final int ADD_CONTACT_NUMBER_REQUEST =  99;
@@ -52,6 +51,11 @@ public class PersonActivity extends BaseActivity {
     private DebitCreditEntityDao debitCreditEntityDao;
 
     @Override
+    protected String getTableName() {
+        return PersonEntityDao.TABLENAME;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person);
@@ -61,10 +65,10 @@ public class PersonActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(Color.parseColor("#3F51B5"));
         }
-        personEntityDao = DBUtil.getWritableInstance(this).getPersonEntityDao();
-        loanEntityDao = DBUtil.getWritableInstance(this).getLoanEntityDao();
-        walletEntityDao = DBUtil.getWritableInstance(this).getWalletEntityDao();
-        debitCreditEntityDao = DBUtil.getWritableInstance(this).getDebitCreditEntityDao();
+        personEntityDao = getDaoSession().getPersonEntityDao();
+        loanEntityDao = getDaoSession().getLoanEntityDao();
+        walletEntityDao = getDaoSession().getWalletEntityDao();
+        debitCreditEntityDao = getDaoSession().getDebitCreditEntityDao();
         name = findViewById(R.id.name);
         family = findViewById(R.id.family);
         phone = findViewById(R.id.phone);
