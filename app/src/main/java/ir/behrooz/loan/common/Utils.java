@@ -167,10 +167,15 @@ public class Utils {
     public static void showNotification(Context context, List<NotificationModel> list) {
         if (list == null || list.isEmpty())
             return;
-        if (!hasNotificationPermission(context)) {
-            loadNotificationPermission(context);
+        try {
+            if (!hasNotificationPermission(context)) {
+                loadNotificationPermission(context);
+                return;
+            }
+        }catch (Exception ex){
             return;
         }
+
         String CHANNEL_ID = context.getPackageName().concat(".channel");
         String channelName = context.getString(R.string.app_name);
         String channelGroup = context.getPackageName().concat(".group");
