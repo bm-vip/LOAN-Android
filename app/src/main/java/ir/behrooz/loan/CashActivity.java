@@ -33,7 +33,7 @@ import com.google.android.material.snackbar.Snackbar;
 public class CashActivity extends BaseActivity {
 
     private EditText name, currencyType;
-    private Switch withDeposit, checkCashRemain, affectNext, notifyDayOfLoan;
+    private Switch withDeposit, checkCashRemain, affectNext, notifyDayOfLoan, showSettledLoan;
     private Long cashId;
     private CashtEntityDao cashtEntityDao;
     private PersonEntityDao personEntityDao;
@@ -68,6 +68,7 @@ public class CashActivity extends BaseActivity {
         checkCashRemain = findViewById(R.id.checkCashRemain);
         affectNext = findViewById(R.id.affectNext);
         notifyDayOfLoan = findViewById(R.id.notifyDayOfLoan);
+        showSettledLoan = findViewById(R.id.showSettledLoan);
         notifyDayOfLoan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -107,6 +108,7 @@ public class CashActivity extends BaseActivity {
         withDeposit.setChecked(cashtEntity.getWithDeposit());
         checkCashRemain.setChecked(cashtEntity.getCheckCashRemain());
         affectNext.setChecked(cashtEntity.getAffectNext());
+        showSettledLoan.setChecked(cashtEntity.getShowSettledLoan());
         notifyDayOfLoan.setChecked(cashtEntity.getNotifyDayOfLoan());
     }
 
@@ -142,6 +144,8 @@ public class CashActivity extends BaseActivity {
             cashEntity.setCheckCashRemain(checkCashRemain.isChecked());
             cashEntity.setNotifyDayOfLoan(notifyDayOfLoan.isChecked());
             cashEntity.setAffectNext(affectNext.isChecked());
+            cashEntity.setShowSettledLoan(showSettledLoan.isChecked());
+            cashEntity.setAffectNext(showSettledLoan.isChecked());
 
             cashtEntityDao.save(cashEntity);
             finish();

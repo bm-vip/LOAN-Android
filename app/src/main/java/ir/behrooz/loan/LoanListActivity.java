@@ -51,7 +51,6 @@ public class LoanListActivity extends BaseActivity {
     public LoanListAdapter adapter;
     String search = "";
     boolean isLoading = false;
-    public Boolean settled;
     public Long personId;
     public ProgressBar progressBar;
     private LoanEntityDao loanEntityDao;
@@ -77,9 +76,6 @@ public class LoanListActivity extends BaseActivity {
             getWindow().setStatusBarColor(Color.parseColor("#303F9F"));
         }
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#303F9F")));
-        if (getIntent().hasExtra("settled")) {
-            settled = getIntent().getExtras().getBoolean("settled");
-        }
         if (getIntent().hasExtra("personId")) {
             personId = getIntent().getExtras().getLong("personId");
             PersonEntity personEntity = getDaoSession().getPersonEntityDao().load(personId);
@@ -203,8 +199,10 @@ public class LoanListActivity extends BaseActivity {
         StringBuilder sql = new StringBuilder("SELECT L.* FROM Loan L INNER JOIN Person P ON P._id=L.PERSON_ID ");
         sql.append("WHERE L.CASH_ID=").append(cashtEntity.getId().toString());
         sql.append(search);
-        if (settled != null)
-            sql.append(" AND L.SETTLED = " + (settled ? "1" : "2"));
+        if(!cashtEntity.getShowSettledLoan())
+            sql.append(" AND L.SETTLED = 0");
+//        if (settled != null)
+//            sql.append(" AND L.SETTLED = " + (settled ? "1" : "2"));
         if (personId != null)
             sql.append(" AND L.PERSON_ID = " + personId);
         sql.append(" order by ");

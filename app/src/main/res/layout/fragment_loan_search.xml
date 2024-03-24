@@ -283,7 +283,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/receiveDate1"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
                     android:inputType="number"
                     android:nextFocusDown="@id/date2"
                     android:textSize="14dp" />
@@ -307,9 +307,48 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/receiveDate2"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
+                    android:nextFocusDown="@id/settled"
                     android:inputType="number"
                     android:textSize="14dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:labelFor="@+id/settled"
+                        android:text="@string/settled"
+                        android:textColor="@color/md_indigo_800"
+                        android:textSize="12dp" />
+
+                <ir.behrooz.loan.widget.AppCompatSpinnerPlus
+                        android:id="@+id/settled"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:hint="@string/settled"
+                        android:imeOptions="actionDone"
+                        android:textSize="14dp" />
+
+            </LinearLayout>
+            <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
             </LinearLayout>
         </LinearLayout>
 

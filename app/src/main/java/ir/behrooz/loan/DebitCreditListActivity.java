@@ -37,6 +37,7 @@ import ir.behrooz.loan.adapter.pdf.PrintJobMonitorService;
 import ir.behrooz.loan.common.BaseActivity;
 import ir.behrooz.loan.common.CompleteListener;
 import ir.behrooz.loan.common.DateUtil;
+import ir.behrooz.loan.common.Utils;
 import ir.behrooz.loan.entity.CashtEntity;
 import ir.behrooz.loan.entity.DebitCreditEntity;
 import ir.behrooz.loan.entity.DebitCreditEntityDao;
@@ -118,6 +119,8 @@ public class DebitCreditListActivity extends BaseActivity {
         sortModels.add(new SortModel("", "DC.LOAN_ID"));
         sortModels.add(new SortModel("", "DC.DATE"));
         initScrollListener();
+        Utils.loadNotificationPermission(this);
+        Utils.showNotification(context, DebitCreditActivity.getAllUnpaidInstallment(context));
     }
 
 

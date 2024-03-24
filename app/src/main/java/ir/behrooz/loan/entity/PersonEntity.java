@@ -16,15 +16,17 @@ public class PersonEntity {
     private String name;
     private String family;
     private String phone;
+    private String accountNumber;
     private Long cashId;
-    @Generated(hash = 1751160242)
+    @Generated(hash = 600804477)
     public PersonEntity(Long id, String nationalCode, String name, String family,
-            String phone, Long cashId) {
+            String phone, String accountNumber, Long cashId) {
         this.id = id;
         this.nationalCode = nationalCode;
         this.name = name;
         this.family = family;
         this.phone = phone;
+        this.accountNumber = accountNumber;
         this.cashId = cashId;
     }
     @Generated(hash = 69356185)
@@ -65,5 +67,11 @@ public class PersonEntity {
     }
     public void setCashId(Long cashId) {
         this.cashId = cashId;
+    }
+    public String getAccountNumber() {
+        return this.accountNumber;
+    }
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 }

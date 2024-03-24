@@ -43,7 +43,7 @@ import ir.behrooz.loan.entity.WalletEntityDao;
 
 public class PersonActivity extends BaseActivity {
     private static final int ADD_CONTACT_NUMBER_REQUEST =  99;
-    private EditText name, family, phone, nationalCode;
+    private EditText name, family, phone, nationalCode, accountNumber;
     private Long personId;
     private PersonEntityDao personEntityDao;
     private LoanEntityDao loanEntityDao;
@@ -73,6 +73,7 @@ public class PersonActivity extends BaseActivity {
         family = findViewById(R.id.family);
         phone = findViewById(R.id.phone);
         nationalCode = findViewById(R.id.nationalCode);
+        accountNumber = findViewById(R.id.accountNumber);
         long subscribCode = personEntityDao.count() + 1L;
         nationalCode.setText(subscribCode + "");
 
@@ -102,6 +103,7 @@ public class PersonActivity extends BaseActivity {
         family.setText(personEntity.getFamily());
         phone.setText(personEntity.getPhone());
         nationalCode.setText(personEntity.getNationalCode());
+        accountNumber.setText(personEntity.getAccountNumber());
     }
 
     public void savePerson(View view) {
@@ -146,6 +148,7 @@ public class PersonActivity extends BaseActivity {
             personEntity.setFamily(family.getText().toString());
             personEntity.setPhone(phone.getText().toString());
             personEntity.setNationalCode(nationalCode.getText().toString());
+            personEntity.setAccountNumber(accountNumber.getText().toString());
 
             personEntityDao.save(personEntity);
 

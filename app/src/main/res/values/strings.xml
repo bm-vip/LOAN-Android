@@ -13,6 +13,7 @@
     <string name="actionMenu">منوی عملیات</string>
     <string name="family">نام خانوادگی</string>
     <string name="phone">تلفن</string>
+    <string name="accountNumber">شماره حساب</string>
     <string name="wallets">سپرده ها</string>
     <string name="wallet">سپرده</string>
     <string name="lastThree">سه واریز آخر</string>
@@ -79,6 +80,7 @@
     <string name="parameters">پارامتر ها</string>
     <string name="general">عمومی</string>
     <string name="notifyDayOfLoan">اعلان سررسید اقساط</string>
+    <string name="showSettledLoan">نمایش وام های تسویه شده</string>
     <string name="withDeposit">با سپرده</string>
     <string name="withoutDeposit">بدون سپرده</string>
     <string name="toman">تومان</string>

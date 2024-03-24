@@ -400,8 +400,8 @@ public class LoanActivity extends BaseActivity {
         } else {
             progressBar.setVisibility(View.VISIBLE);
             long unpaidSum = dbSum(Value, DebitCreditEntityDao.TABLENAME, new And(PayStatus, "0", Operator.EQUAL), new WhereCondition(CashId, cashtEntity.getId().toString()));
-            long walletSum = dbSum(WalletEntityDao.Properties.Value, WalletEntityDao.TABLENAME, new And(WalletEntityDao.Properties.Status, "1"), new WhereCondition(CashId, cashtEntity.getId().toString()));
-            walletSum -= dbSum(WalletEntityDao.Properties.Value, WalletEntityDao.TABLENAME, new And(WalletEntityDao.Properties.Status, "0"), new WhereCondition(WalletEntityDao.Properties.CashId, cashtEntity.getId().toString()));
+            long walletSum = dbSum(WalletEntityDao.Properties.Value, WalletEntityDao.TABLENAME, new And(WalletEntityDao.Properties.Status, "1"), new And(CashId, cashtEntity.getId().toString()));
+            walletSum -= dbSum(WalletEntityDao.Properties.Value, WalletEntityDao.TABLENAME, new And(WalletEntityDao.Properties.Status, "0"), new And(WalletEntityDao.Properties.CashId, cashtEntity.getId().toString()));
             long cashRemain = walletSum - unpaidSum;
 
             for (PersonModel personModel : personModels) {

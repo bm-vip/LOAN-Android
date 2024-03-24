@@ -25,6 +25,7 @@ public class CashtEntity {
     private boolean checkCashRemain;
     private boolean affectNext;
     private boolean notifyDayOfLoan;
+    private boolean showSettledLoan;
 
     public CashtEntity(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -42,6 +43,7 @@ public class CashtEntity {
             this.checkCashRemain = true;
             this.affectNext = true;
             this.notifyDayOfLoan = true;
+            this.showSettledLoan = true;
         } else {
             this.id = cashtEntity.getId();
             this.name = cashtEntity.getName();
@@ -50,13 +52,18 @@ public class CashtEntity {
             this.checkCashRemain = cashtEntity.getCheckCashRemain();
             this.affectNext = cashtEntity.getAffectNext();
             this.notifyDayOfLoan = cashtEntity.getNotifyDayOfLoan();
+            this.showSettledLoan = cashtEntity.getShowSettledLoan();
         }
     }
 
-    @Generated(hash = 1663509423)
-    public CashtEntity(Long id, String name, String currencyType,
-                       boolean withDeposit, boolean checkCashRemain, boolean affectNext,
-                       boolean notifyDayOfLoan) {
+    
+    public CashtEntity() {
+    }
+
+
+    @Generated(hash = 734014257)
+    public CashtEntity(Long id, String name, String currencyType, boolean withDeposit, boolean checkCashRemain,
+            boolean affectNext, boolean notifyDayOfLoan, boolean showSettledLoan) {
         this.id = id;
         this.name = name;
         this.currencyType = currencyType;
@@ -64,10 +71,7 @@ public class CashtEntity {
         this.checkCashRemain = checkCashRemain;
         this.affectNext = affectNext;
         this.notifyDayOfLoan = notifyDayOfLoan;
-    }
-
-    @Generated(hash = 2124985435)
-    public CashtEntity() {
+        this.showSettledLoan = showSettledLoan;
     }
 
     public Long getId() {
@@ -124,5 +128,14 @@ public class CashtEntity {
 
     public void setNotifyDayOfLoan(boolean notifyDayOfLoan) {
         this.notifyDayOfLoan = notifyDayOfLoan;
+    }
+
+    public void setShowSettledLoan(boolean showSettledLoan) {
+        this.showSettledLoan = showSettledLoan;
+    }
+
+
+    public boolean getShowSettledLoan() {
+        return this.showSettledLoan;
     }
 }

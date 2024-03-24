@@ -24,6 +24,7 @@ import ir.behrooz.loan.common.BackupAndRestore;
 import ir.behrooz.loan.common.BaseActivity;
 import ir.behrooz.loan.common.FontChangeCrawler;
 import ir.behrooz.loan.common.LanguageUtils;
+import ir.behrooz.loan.common.Utils;
 import ir.behrooz.loan.common.sql.And;
 import ir.behrooz.loan.common.sql.DBUtil;
 import ir.behrooz.loan.common.sql.Operator;
@@ -44,6 +45,7 @@ import static ir.behrooz.loan.common.Utils.getVersion;
 import static ir.behrooz.loan.common.Utils.landScape;
 import static ir.behrooz.loan.entity.WalletEntityDao.Properties.*;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -74,7 +76,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         factor = getResources().getDisplayMetrics().density;
@@ -110,7 +111,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        cashtEntity = new CashtEntity(this);
+        try {
+            cashtEntity = new CashtEntity(this);
+        } catch (Exception ex) {
+                DBUtil.getWritableInstance(this).getDatabase().execSQL("ALTER TABLE Cash ADD COLUMN SHOW_SETTLED_LOAN INTEGER NOT NULL DEFAULT 1");
+                DBUtil.getWritableInstance(this).getDatabase().execSQL("ALTER TABLE Person ADD COLUMN ACCOUNT_NUMBER TEXT");
+            cashtEntity = new CashtEntity(this);
+        }
         if (cashtEntityDao.count() == 0) {
             cashtEntityDao.save(cashtEntity);
         }
@@ -150,13 +157,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         unpaidBtn.setText(String.format("%d\nقسط %s\n%s", getDebitCreditCount(cashtEntity.getId(), false), getString(R.string.unpaid), getDebitCreditSum(cashtEntity.getId().toString(), "0")));
 
         long cashRemain = 0L;
-        long paidLoan = DBUtil.sum(context, LoanEntityDao.Properties.Value, LoanEntityDao.TABLENAME, new And(LoanEntityDao.Properties.WinDate, "NULL", Operator.IS_NOT), new WhereCondition(LoanEntityDao.Properties.CashId, cashtEntity.getId().toString()));
+        long paidLoan = dbSum(LoanEntityDao.Properties.Value, LoanEntityDao.TABLENAME, new WhereCondition(LoanEntityDao.Properties.WinDate, "NULL", Operator.IS_NOT), new And(LoanEntityDao.Properties.CashId, cashtEntity.getId().toString()));
 
         if (cashtEntity.getWithDeposit()) {
-            long unpaidSum = DBUtil.sum(context, DebitCreditEntityDao.Properties.Value, DebitCreditEntityDao.TABLENAME, new And(DebitCreditEntityDao.Properties.PayStatus, "0"), new WhereCondition(DebitCreditEntityDao.Properties.CashId, cashtEntity.getId().toString()));
+            long unpaidSum = dbSum(DebitCreditEntityDao.Properties.Value, DebitCreditEntityDao.TABLENAME, new WhereCondition(DebitCreditEntityDao.Properties.PayStatus, "0"), new And(DebitCreditEntityDao.Properties.CashId, cashtEntity.getId().toString()));
             cashRemain = walletSum - unpaidSum;
         } else {
-            long paidInstallment = DBUtil.sum(context, DebitCreditEntityDao.Properties.Value, DebitCreditEntityDao.TABLENAME, new And(DebitCreditEntityDao.Properties.PayStatus, "1"), new WhereCondition(DebitCreditEntityDao.Properties.CashId, cashtEntity.getId().toString()));
+            long paidInstallment = dbSum(DebitCreditEntityDao.Properties.Value, DebitCreditEntityDao.TABLENAME, new WhereCondition(DebitCreditEntityDao.Properties.PayStatus, "1"), new And(DebitCreditEntityDao.Properties.CashId, cashtEntity.getId().toString()));
             cashRemain = paidInstallment - paidLoan;
         }
 
@@ -206,7 +213,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private String getDebitCreditSum(String cashId, String payStatus) {
-        return moneySeparator(context, DBUtil.sum(context, DebitCreditEntityDao.Properties.Value, DebitCreditEntityDao.TABLENAME, new And(DebitCreditEntityDao.Properties.PayStatus, payStatus), new WhereCondition(DebitCreditEntityDao.Properties.CashId, cashId)));
+        return moneySeparator(context, dbSum(DebitCreditEntityDao.Properties.Value, DebitCreditEntityDao.TABLENAME, new WhereCondition(DebitCreditEntityDao.Properties.PayStatus, payStatus), new And(DebitCreditEntityDao.Properties.CashId, cashId)));
     }
 
     private long getDebitCreditCount(Long cashId, boolean payStatus) {

@@ -108,7 +108,6 @@
                        android:layout_centerVertical="true"
                        android:layout_margin="5dp"
                        android:background="?android:selectableItemBackground"
-                       android:onClick="addPerson"
                        android:padding="5dp"
                        android:src="@drawable/ic_add_gray_24dp" />
                </RelativeLayout>

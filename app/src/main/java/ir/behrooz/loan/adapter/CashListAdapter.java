@@ -42,6 +42,7 @@ public class CashListAdapter extends RecyclerView.Adapter<CashListAdapter.ViewHo
         holder.checkCashRemain.setText(makeYesNo(entity.getCheckCashRemain()));
         holder.withDeposit.setText(entity.getWithDeposit() ? context.getString(R.string.withDeposit) : context.getString(R.string.withoutDeposit));
         holder.notifyDayOfLoan.setText(makeYesNo(entity.getNotifyDayOfLoan()));
+        holder.showSettledLoan.setText(makeYesNo(entity.getShowSettledLoan()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,7 +73,7 @@ public class CashListAdapter extends RecyclerView.Adapter<CashListAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView name, currencyType, withDeposit, checkCashRemain, affectNext, notifyDayOfLoan;
+        TextView name, currencyType, withDeposit, checkCashRemain, affectNext, notifyDayOfLoan, showSettledLoan;
 
         public ViewHolder(View view) {
             super(view);
@@ -82,6 +83,7 @@ public class CashListAdapter extends RecyclerView.Adapter<CashListAdapter.ViewHo
             checkCashRemain = (TextView) view.findViewById(R.id.checkCashRemain);
             affectNext = (TextView) view.findViewById(R.id.affectNext);
             notifyDayOfLoan = (TextView) view.findViewById(R.id.notifyDayOfLoan);
+            showSettledLoan = (TextView) view.findViewById(R.id.showSettledLoan);
             new FontChangeCrawler(view.getContext().getAssets(), Constants.IRANSANS_MD).replaceFonts((ViewGroup) view.getRootView());
         }
     }

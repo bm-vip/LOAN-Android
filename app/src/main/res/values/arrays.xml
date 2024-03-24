@@ -14,4 +14,9 @@
         <item>3</item>
         <item>4</item>
     </string-array>
+    <string-array name="settled_array">
+        <item>---</item>
+        <item>@string/done</item>
+        <item>@string/not</item>
+    </string-array>
 </resources>

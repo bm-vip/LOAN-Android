@@ -131,7 +131,19 @@
                 android:paddingBottom="4dp"
                 android:background="@drawable/border_bottom"
                 android:text="@string/notifyDayOfLoan" />
-
+            <Switch
+                    android:id="@+id/showSettledLoan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
+                    android:buttonTint="@color/colorPrimary"
+                    android:checked="true"
+                    android:switchMinWidth="60dp"
+                    android:paddingBottom="4dp"
+                    android:background="@drawable/border_bottom"
+                    android:text="@string/showSettledLoan" />
             <Button
                 android:id="@+id/savePerson"
                 android:layout_width="match_parent"

@@ -78,7 +78,7 @@ public class LoanListAdapter extends RecyclerView.Adapter<LoanListAdapter.ViewHo
         holder.receiveDate.setText(DateUtil.toPersianString(entity.getDate(), false));
         holder.dayOfMonth.setText(LanguageUtils.getPersianNumbers(entity.getDayInMonth() + ""));
         holder.installment.setText(LanguageUtils.getPersianNumbers(entity.getInstallment() + ""));
-        Long remain = DBUtil.sum(context, Value, DebitCreditEntityDao.TABLENAME, new And(LoanId, entity.getId().toString()), new WhereCondition(PayStatus, "0"));
+        Long remain = DBUtil.sum(context, Value, DebitCreditEntityDao.TABLENAME, new WhereCondition(LoanId, entity.getId().toString()), new And(PayStatus, "0"));
         holder.remain.setText(moneySeparator(context, remain));
         holder.settled.setText(entity.getSettled() ? context.getString(R.string.done) : context.getString(R.string.not));
         holder.installmentAmount.setText(moneySeparator(context, entity.getInstallmentAmount()));

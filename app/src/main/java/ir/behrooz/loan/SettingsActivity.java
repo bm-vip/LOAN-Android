@@ -3,12 +3,10 @@ package ir.behrooz.loan;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.os.Build.VERSION.SDK_INT;
-import static ir.behrooz.loan.common.Constants.APPLICATION_ID;
 import static ir.behrooz.loan.common.ReflectionUtils.convert;
 import static ir.behrooz.loan.common.ReflectionUtils.select;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -179,7 +177,7 @@ public class SettingsActivity extends BaseActivity {
                     if (checkPermission()) {
                         File outputFile = new File(backupPath.getSummary().toString(), Constants.DB_NAME);
                         if (outputFile.exists() && outputFile.isFile()) {
-                            Uri uri = FileProvider.getUriForFile(requireActivity(),APPLICATION_ID + ".provider", outputFile);
+                            Uri uri = FileProvider.getUriForFile(requireActivity(),requireActivity().getPackageName() + ".provider", outputFile);
                             Intent i = new Intent(Intent.ACTION_SEND);
                             i.putExtra(Intent.EXTRA_TEXT, Constants.DB_NAME);
                             i.putExtra(Intent.EXTRA_STREAM, uri);

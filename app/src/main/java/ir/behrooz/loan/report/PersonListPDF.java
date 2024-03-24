@@ -14,6 +14,8 @@ import java.util.List;
 
 import ir.behrooz.loan.R;
 import ir.behrooz.loan.common.LanguageUtils;
+import ir.behrooz.loan.common.sql.And;
+import ir.behrooz.loan.common.sql.AndOr;
 import ir.behrooz.loan.common.sql.DBUtil;
 import ir.behrooz.loan.common.sql.Operator;
 import ir.behrooz.loan.common.sql.WhereCondition;
@@ -35,11 +37,12 @@ public class PersonListPDF extends BasePDF {
 
     @Override
     protected void createTable(Paragraph paragraph, Object list) {
-        PdfPTable table = new PdfPTable(6);
+        PdfPTable table = new PdfPTable(7);
         table.setWidthPercentage(100);
         table.addCell(createPdfPCell(0, context.getString(R.string.delayed), font_MD_14));
         table.addCell(createPdfPCell(0, context.getString(R.string.wallet), font_MD_14));
         table.addCell(createPdfPCell(0, context.getString(R.string.subscribCode), font_MD_14));
+        table.addCell(createPdfPCell(0, context.getString(R.string.accountNumber), font_MD_14));
         table.addCell(createPdfPCell(0, context.getString(R.string.phone), font_MD_14));
         table.addCell(createPdfPCell(0, context.getString(R.string.fullName), font_MD_14));
         table.addCell(createPdfPCellSmall(0, context.getString(R.string.rowNum), font_MD_14));
@@ -53,14 +56,15 @@ public class PersonListPDF extends BasePDF {
             table.addCell(createPdfPCell(i, LanguageUtils.getPersianNumbers(delayedCount + "")));
             Long wallet = 0L;
             if (cashtEntity.getWithDeposit()) {
-                wallet = DBUtil.sum(context, Value, WalletEntityDao.TABLENAME, new WhereCondition(PersonId, entity.getId().toString()), new WhereCondition(WalletEntityDao.Properties.Status, "1"));
-                wallet -= DBUtil.sum(context, Value, WalletEntityDao.TABLENAME, new WhereCondition(PersonId, entity.getId().toString()), new WhereCondition(WalletEntityDao.Properties.Status, "0"));
+                wallet = DBUtil.sum(context, Value, WalletEntityDao.TABLENAME, new WhereCondition(PersonId, entity.getId().toString()), new And(WalletEntityDao.Properties.Status, "1"));
+                wallet -= DBUtil.sum(context, Value, WalletEntityDao.TABLENAME, new WhereCondition(PersonId, entity.getId().toString()), new And(WalletEntityDao.Properties.Status, "0"));
             }
             else
-                wallet = DBUtil.sum(context, Value, DebitCreditEntityDao.TABLENAME, new WhereCondition(PersonId, entity.getId().toString()), new WhereCondition(PayStatus, "1"));
+                wallet = DBUtil.sum(context, Value, DebitCreditEntityDao.TABLENAME, new WhereCondition(PersonId, entity.getId().toString()), new And(PayStatus, "1"));
             sum += wallet;
             table.addCell(createPdfPCell(i, moneySeparator(context, wallet)));
             table.addCell(createPdfPCell(i, LanguageUtils.getPersianNumbers(entity.getNationalCode())));
+            table.addCell(createPdfPCell(i, entity.getAccountNumber()));
             table.addCell(createPdfPCell(i, LanguageUtils.getPersianNumbers(entity.getPhone())));
             table.addCell(createPdfPCell(i, String.format("%s %s", entity.getName(), entity.getFamily())));
             table.addCell(createPdfPCellSmall(i, (i + 1) + "", font_LT_12));

@@ -1,5 +1,6 @@
 package ir.behrooz.loan.fragment;
 
+import static ir.behrooz.loan.common.Constants.IRANSANS_LT;
 import static ir.behrooz.loan.common.DateUtil.addZero;
 import static ir.behrooz.loan.common.StringUtil.fixWeakCharacters;
 import static ir.behrooz.loan.common.StringUtil.onChangedEditText;
@@ -13,15 +14,14 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
-
-import ir.behrooz.materialdatetimepicker.date.DatePickerDialog;
-import ir.behrooz.materialdatetimepicker.utils.PersianCalendar;
 
 import java.util.Date;
 import java.util.List;
@@ -34,6 +34,9 @@ import ir.behrooz.loan.common.FontChangeCrawler;
 import ir.behrooz.loan.common.LanguageUtils;
 import ir.behrooz.loan.entity.DebitCreditEntityDao;
 import ir.behrooz.loan.model.PersonModel;
+import ir.behrooz.loan.widget.AppCompatSpinnerPlus;
+import ir.behrooz.materialdatetimepicker.date.DatePickerDialog;
+import ir.behrooz.materialdatetimepicker.utils.PersianCalendar;
 
 /**
  * Created by Behrooz Mohamadi on 16/10/28.
@@ -42,10 +45,12 @@ public class LoanSearchFragment extends DialogFragment {
     private CompleteListener completeListener;
     private EditText fullName, loanName, dayOfMonth, value, installment, installmentAmount, date1, date2, delayed, remain;
     private ImageButton fullNameBtn;
+    private AppCompatSpinnerPlus settled;
     private Button search, cancel;
     private DateListener1 dateListener1;
     private DateListener2 dateListener2;
     private List<PersonModel> personModels;
+    private String selectedSettledValue;
 
     public static LoanSearchFragment newInstance(Long cashId) {
         LoanSearchFragment frag = new LoanSearchFragment();
@@ -74,6 +79,7 @@ public class LoanSearchFragment extends DialogFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fullNameBtn = view.findViewById(R.id.fullNameBtn);
+        settled = view.findViewById(R.id.settled);
         fullName = view.findViewById(R.id.fullNameValue);
         search = view.findViewById(R.id.search);
         cancel = view.findViewById(R.id.cancel);
@@ -85,6 +91,7 @@ public class LoanSearchFragment extends DialogFragment {
         installment = view.findViewById(R.id.installment);
         installmentAmount = view.findViewById(R.id.installmentAmount);
         delayed = view.findViewById(R.id.delayed);
+        remain = view.findViewById(R.id.remain);
         remain = view.findViewById(R.id.remain);
         final Long cashId = getArguments().getLong("cashId");
 
@@ -111,6 +118,28 @@ public class LoanSearchFragment extends DialogFragment {
                 personSearchFragment.show(fm, "fragment_add_person");
             }
         });
+        //add settled options
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.settled_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        settled.setAdapter(adapter);
+        new FontChangeCrawler(getContext().getAssets(), IRANSANS_LT).replaceFonts(settled);
+        settled.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedValue = (String) parentView.getItemAtPosition(position);
+                if (selectedValue.equals(getString(R.string.done)))
+                    selectedSettledValue = "1";
+                else if (selectedValue.equals(getString(R.string.not)))
+                    selectedSettledValue = "0";
+                else selectedSettledValue = "";
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                selectedSettledValue = "";
+            }
+        });
+
         dateListener1 = new DateListener1();
         dateListener2 = new DateListener2();
         PersianCalendar now = new PersianCalendar();
@@ -209,20 +238,21 @@ public class LoanSearchFragment extends DialogFragment {
                 if (!TextUtils.isEmpty(dayOfMonth.getText()))
                     builder.append(" AND L.DAY_IN_MONTH = ".concat(dayOfMonth.getText().toString()));
                 if (!TextUtils.isEmpty(value.getText()))
-                    builder.append(" AND L.VALUE = ".concat(removeSeparator(getContext(), value.getText().toString()) + ""));
+                    builder.append(" AND L.VALUE = " + removeSeparator(getContext(), value.getText().toString()));
                 if (!TextUtils.isEmpty(installment.getText()))
                     builder.append(" AND L.INSTALLMENT = ".concat(installment.getText().toString()));
                 if (!TextUtils.isEmpty(installmentAmount.getText()))
-                    builder.append(" AND L.INSTALLMENT_AMOUNT = ".concat(removeSeparator(getContext(), installmentAmount.getText().toString()) + ""));
+                    builder.append(" AND L.INSTALLMENT_AMOUNT = " + removeSeparator(getContext(), installmentAmount.getText().toString()));
                 if (!TextUtils.isEmpty(date1.getText()) && TextUtils.isEmpty(date2.getText()))
                     builder.append(" AND L.DATE = ").append(DateUtil.toGregorian(date1.getText().toString()).getTime());
                 if (!TextUtils.isEmpty(date1.getText()) && !TextUtils.isEmpty(date2.getText()))
                     builder.append(" AND L.DATE >= ".concat(DateUtil.toGregorian(date1.getText().toString()).getTime() + " AND L.DATE <= ")).append(DateUtil.toGregorian(date2.getText().toString()).getTime());
                 if (!TextUtils.isEmpty(delayed.getText()))
-                    builder.append(" AND ".concat(delayed.getText().toString()).concat("=(select count(*) from ").concat(DebitCreditEntityDao.TABLENAME).concat(" DC where DC.LOAN_ID=L._id AND PAY_STATUS=0 AND DATE <").concat(new Date().getTime() + ")"));
+                    builder.append(" AND L._id in (select DC.LOAN_ID from ").append(DebitCreditEntityDao.TABLENAME).append(" DC where DC.PAY_STATUS = 0 AND DATE < ").append(new Date().getTime()).append(" group by DC.LOAN_ID having count(DC.VALUE) = " + removeSeparator(getContext(), remain.getText().toString())).append(")");
                 if (!TextUtils.isEmpty(remain.getText()))
-                    builder.append(" AND ".concat(removeSeparator(getContext(), remain.getText().toString()) + "=").concat("(select dbSum(DC.VALUE) from ").concat(DebitCreditEntityDao.TABLENAME).concat(" DC where DC.LOAN_ID=L._id AND PAY_STATUS = 0)"));
-
+                    builder.append(" AND L._id in (select DC.LOAN_ID from ").append(DebitCreditEntityDao.TABLENAME).append(" DC where DC.PAY_STATUS = 0 group by DC.LOAN_ID having sum(DC.VALUE) = " + removeSeparator(getContext(), remain.getText().toString())).append(")");
+                if(selectedSettledValue != null && !selectedSettledValue.isEmpty())
+                    builder.append(" AND L.SETTLED = " + selectedSettledValue);
                 if (getCompleteListener() != null)
                     getCompleteListener().onComplete(builder.toString());
                 dismiss();

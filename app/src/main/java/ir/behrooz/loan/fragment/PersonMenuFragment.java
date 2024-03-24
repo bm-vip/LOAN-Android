@@ -117,16 +117,17 @@ public class PersonMenuFragment extends DialogFragment {
         StringBuilder builder = new StringBuilder(cashtEntity.getName());
         builder.append("\n───────────────\n");
         builder.append(String.format("%s %s\n", personEntity.getName(), personEntity.getFamily()));
-        builder.append(String.format("%s: %s", ctx.getString(R.string.subscribCode), personEntity.getNationalCode()));
+        builder.append(String.format("%s: %s\n", ctx.getString(R.string.subscribCode), personEntity.getNationalCode()));
+        builder.append(String.format("%s: %s", ctx.getString(R.string.accountNumber), personEntity.getAccountNumber() == null ? "-" : personEntity.getAccountNumber()));
         builder.append("\n───────────────\n");
         Long wallet = 0L;
         if (cashtEntity.getWithDeposit()) {
-            wallet = DBUtil.sum(ctx, Value, WalletEntityDao.TABLENAME, new And(PersonId, personId.toString()), new WhereCondition(WalletEntityDao.Properties.Status, "1"));
-            wallet -= DBUtil.sum(ctx, Value, WalletEntityDao.TABLENAME, new And(PersonId, personId.toString()), new WhereCondition(WalletEntityDao.Properties.Status, "0"));
+            wallet = DBUtil.sum(ctx, Value, WalletEntityDao.TABLENAME, new WhereCondition(PersonId, personId.toString()), new And(WalletEntityDao.Properties.Status, "1"));
+            wallet -= DBUtil.sum(ctx, Value, WalletEntityDao.TABLENAME, new WhereCondition(PersonId, personId.toString()), new And(WalletEntityDao.Properties.Status, "0"));
         } else
-            wallet = DBUtil.sum(ctx, Value, DebitCreditEntityDao.TABLENAME, new And(PersonId, personId.toString()), new WhereCondition(PayStatus, "1"));
+            wallet = DBUtil.sum(ctx, Value, DebitCreditEntityDao.TABLENAME, new WhereCondition(PersonId, personId.toString()), new And(PayStatus, "1"));
         builder.append(String.format("%s: %s\n", ctx.getString(R.string.wallet), moneySeparator(ctx, wallet)));
-        Long remain = DBUtil.sum(ctx, DebitCreditEntityDao.Properties.Value, DebitCreditEntityDao.TABLENAME, new And(DebitCreditEntityDao.Properties.PersonId, personId.toString()), new WhereCondition(DebitCreditEntityDao.Properties.PayStatus, "0"));
+        Long remain = DBUtil.sum(ctx, DebitCreditEntityDao.Properties.Value, DebitCreditEntityDao.TABLENAME, new WhereCondition(DebitCreditEntityDao.Properties.PersonId, personId.toString()), new And(DebitCreditEntityDao.Properties.PayStatus, "0"));
         builder.append(String.format("%s: %s\n", ctx.getString(R.string.remainLoan), moneySeparator(ctx, remain)));
         DebitCreditEntityDao debitCreditEntityDao = DBUtil.getReadableInstance(ctx).getDebitCreditEntityDao();
         long delayedCount = debitCreditEntityDao.queryBuilder().where(DebitCreditEntityDao.Properties.PersonId.eq(personId), DebitCreditEntityDao.Properties.PayStatus.eq(false), DebitCreditEntityDao.Properties.Date.lt(new Date())).count();
@@ -143,7 +144,7 @@ public class PersonMenuFragment extends DialogFragment {
             builder.append(ctx.getString(R.string.lastLoan));
             builder.append(String.format("\n%s: %s\n", ctx.getString(R.string.amount), moneySeparator(ctx, lastLoanEntity.getValue())));
             builder.append(String.format("%s: %s\n", ctx.getString(R.string.receiveDate), DateUtil.toPersianString(lastLoanEntity.getDate(), false)));
-            Long loanRemain = DBUtil.sum(ctx, DebitCreditEntityDao.Properties.Value, DebitCreditEntityDao.TABLENAME, new And(DebitCreditEntityDao.Properties.LoanId, lastLoanEntity.getId().toString()), new WhereCondition(DebitCreditEntityDao.Properties.PayStatus, "0"));
+            Long loanRemain = DBUtil.sum(ctx, DebitCreditEntityDao.Properties.Value, DebitCreditEntityDao.TABLENAME, new WhereCondition(DebitCreditEntityDao.Properties.LoanId, lastLoanEntity.getId().toString()), new And(DebitCreditEntityDao.Properties.PayStatus, "0"));
             builder.append(String.format("%s: %s\n", ctx.getString(R.string.remainLoan), moneySeparator(ctx, loanRemain)));
             long paidCount = debitCreditEntityDao.queryBuilder().where(DebitCreditEntityDao.Properties.LoanId.eq(lastLoanEntity.getId()), DebitCreditEntityDao.Properties.PayStatus.eq(true)).count();
             builder.append(String.format("%s: %s\n", ctx.getString(R.string.installmentPaid), String.format("%d از %d", paidCount, lastLoanEntity.getInstallment())));

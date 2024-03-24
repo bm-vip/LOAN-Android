@@ -88,7 +88,7 @@ public class LoanListPDF extends BasePDF {
 
             PdfPTable tbl3 = new PdfPTable(1);
             tbl3.addCell(createPdfPCellNoBorder(i, context.getString(R.string.remainLoan), font_MD_14));
-            Long remain = DBUtil.sum(context, DebitCreditEntityDao.Properties.Value, DebitCreditEntityDao.TABLENAME, new And(LoanId, entity.getId().toString()), new WhereCondition(PayStatus, "0"));
+            Long remain = DBUtil.sum(context, DebitCreditEntityDao.Properties.Value, DebitCreditEntityDao.TABLENAME, new WhereCondition(LoanId, entity.getId().toString()), new And(PayStatus, "0"));
             remainSum += remain;
             tbl3.addCell(createPdfPCellNoBorder(i, moneySeparator(context, remain), font_LT_12));
             table.addCell(tbl3);

@@ -38,9 +38,10 @@ public class DBUtil {
             sql.append(" WHERE ");
             for (int i = 0; i < conditions.length; i++) {
                 WhereCondition condition = conditions[i];
-                sql.append(String.format("%s %s %s", condition.getProperty().columnName, condition.getOprator().getValue(), condition.getValue()));
                 if (condition.getAndOr() != null)
                     sql.append(String.format(" %s ", condition.getAndOr()));
+                sql.append(String.format("%s %s %s", condition.getProperty().columnName, condition.getOprator().getValue(), condition.getValue()));
+
             }
         }
 

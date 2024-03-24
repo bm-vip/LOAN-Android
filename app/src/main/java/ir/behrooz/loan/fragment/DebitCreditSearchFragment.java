@@ -1,5 +1,11 @@
 package ir.behrooz.loan.fragment;
 
+import static ir.behrooz.loan.common.Constants.IRANSANS_LT;
+import static ir.behrooz.loan.common.DateUtil.addZero;
+import static ir.behrooz.loan.common.StringUtil.fixWeakCharacters;
+import static ir.behrooz.loan.common.StringUtil.onChangedEditText;
+import static ir.behrooz.loan.common.StringUtil.removeSeparator;
+
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,11 +15,19 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+
 import java.util.List;
+
 import ir.behrooz.loan.R;
 import ir.behrooz.loan.common.CompleteListener;
 import ir.behrooz.loan.common.Constants;
@@ -21,14 +35,7 @@ import ir.behrooz.loan.common.DateUtil;
 import ir.behrooz.loan.common.FontChangeCrawler;
 import ir.behrooz.loan.common.LanguageUtils;
 import ir.behrooz.loan.model.PersonModel;
-import static ir.behrooz.loan.common.DateUtil.addZero;
-import static ir.behrooz.loan.common.StringUtil.fixWeakCharacters;
-import static ir.behrooz.loan.common.StringUtil.onChangedEditText;
-import static ir.behrooz.loan.common.StringUtil.removeSeparator;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
-
+import ir.behrooz.loan.widget.AppCompatSpinnerPlus;
 import ir.behrooz.materialdatetimepicker.date.DatePickerDialog;
 import ir.behrooz.materialdatetimepicker.utils.PersianCalendar;
 
@@ -39,12 +46,14 @@ import ir.behrooz.materialdatetimepicker.utils.PersianCalendar;
 public class DebitCreditSearchFragment extends DialogFragment {
     private CompleteListener completeListener;
     private EditText fullName, loanName, value, date1, date2, description;
-    private TextView fullNameLabel, loanNameLabel, valueLabel, dateLabel1,dateLabel2,descriptionLabel;
+    private TextView fullNameLabel, loanNameLabel, valueLabel, dateLabel1,dateLabel2,descriptionLabel, paidLabel;
+    private AppCompatSpinnerPlus paid;
     private ImageButton fullNameBtn;
     private Button search, cancel;
     private DateListener1 dateListener1;
     private DateListener2 dateListener2;
     private List<PersonModel> personModels;
+    private String selectedPaidValue;
 
     public static DebitCreditSearchFragment newInstance(String color,Long cashId) {
         DebitCreditSearchFragment frag = new DebitCreditSearchFragment();
@@ -88,6 +97,8 @@ public class DebitCreditSearchFragment extends DialogFragment {
         valueLabel = view.findViewById(R.id.valueLabel);
         description = view.findViewById(R.id.description);
         descriptionLabel = view.findViewById(R.id.descriptionLabel);
+        paidLabel = view.findViewById(R.id.paidLabel);
+        paid = view.findViewById(R.id.paid);
         TextView header = view.findViewById(R.id.actionSearchHeader);
         final String color = getArguments().getString("color");
         final Long cashId = getArguments().getLong("cashId");
@@ -100,6 +111,29 @@ public class DebitCreditSearchFragment extends DialogFragment {
         dateLabel2.setTextColor(Color.parseColor(color));
         valueLabel.setTextColor(Color.parseColor(color));
         descriptionLabel.setTextColor(Color.parseColor(color));
+        paidLabel.setTextColor(Color.parseColor(color));
+
+        //add paid options
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.settled_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        paid.setAdapter(adapter);
+        new FontChangeCrawler(getContext().getAssets(), IRANSANS_LT).replaceFonts(paid);
+        paid.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedValue = (String) parentView.getItemAtPosition(position);
+                if (selectedValue.equals(getString(R.string.done)))
+                    selectedPaidValue = "1";
+                else if (selectedValue.equals(getString(R.string.not)))
+                    selectedPaidValue = "0";
+                else selectedPaidValue = "";
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                selectedPaidValue = "";
+            }
+        });
 
         fullNameBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,7 +229,8 @@ public class DebitCreditSearchFragment extends DialogFragment {
                     builder.append(" AND DC.DATE >= ".concat(DateUtil.toGregorian(date1.getText().toString()).getTime() + " AND DC.DATE <= ")).append(DateUtil.toGregorian(date2.getText().toString()).getTime());
                 if (!TextUtils.isEmpty(description.getText()))
                     builder.append(" AND DC.DESCRIPTION LIKE '%".concat(description.getText().toString()).concat("%'"));
-
+                if(selectedPaidValue != null && !selectedPaidValue.isEmpty())
+                    builder.append(" AND DC.PAY_STATUS = " + selectedPaidValue);
 
                 if (getCompleteListener() != null)
                     getCompleteListener().onComplete(builder.toString());
