@@ -54,21 +54,23 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
 
     public void cancelAlarm(Context context) {
-        if (pendingIntent != null) {
-            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            alarmManager.cancel(pendingIntent);
-            pendingIntent.cancel();
-        }
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.setAction(ACTION_ALARM_RECEIVER);//my custom string action name
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
     }
     public boolean isAlarmRunning(Context context) {
-        return getPendingIntent(context) != null;
+        Intent intent = new Intent(context, AlarmReceiver.class);//the same as up
+        intent.setAction(ACTION_ALARM_RECEIVER);//the same as up
+        return  (PendingIntent.getBroadcast(context, REQUEST_CODE, intent, PendingIntent.FLAG_NO_CREATE | PendingIntent.FLAG_IMMUTABLE) != null);
     }
     private PendingIntent getPendingIntent(Context context) {
         if(pendingIntent != null)
             return pendingIntent;
         Intent alarmIntent = new Intent(context, AlarmReceiver.class);
         alarmIntent.setAction(ACTION_ALARM_RECEIVER);//my custom string action name
-        pendingIntent = PendingIntent.getBroadcast(context, REQUEST_CODE, alarmIntent, PendingIntent.FLAG_IMMUTABLE);
+        pendingIntent = PendingIntent.getBroadcast(context, REQUEST_CODE, alarmIntent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
         return pendingIntent;
     }
 }
