@@ -11,5 +11,5 @@ public class Constants {
     public static final String APPLICATION_ID = "ir.behrooz.loan";
     public static final String IMAGE_PATH = "LoanImage";
     public static final String DB_NAME = "Loan.db";
-    public static final String VERSION = "2.45.25";
+    public static final String VERSION = "2.47.27";
 }

@@ -50,7 +50,6 @@ public class AlarmReceiver extends BroadcastReceiver {
     private void _setAlarm(Context context) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),  AlarmManager.INTERVAL_DAY, getPendingIntent(context)); // Millis * Second * Minute
-        Toast.makeText(context,"Alarm is Set",Toast.LENGTH_SHORT).show();
     }
 
     public void cancelAlarm(Context context) {
